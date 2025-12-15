@@ -1,0 +1,40 @@
+\begin{figure}
+\[
+\begin{tikzpicture}[scale=3]
+
+% Define 15 random points
+\foreach \i in {1,...,15}{
+  \pgfmathsetmacro{\x}{rand}
+  \pgfmathsetmacro{\y}{rand}
+  \coordinate (P\i) at (\x,\y);
+}
+
+% Draw all points
+\foreach \i in {1,...,15}{
+  \fill (P\i) circle (0.015);
+}
+
+\begin{scope}[shift={(2,0)}]
+  % Convex hull points
+  \coordinate (A1) at (0,0);
+  \coordinate (A2) at (1,0);
+  \coordinate (A3) at (1,1);
+  \coordinate (A4) at (0,1);
+
+  % Inner points
+  \foreach \x/\y in {0.2/0.3, 0.3/0.7, 0.4/0.4, 0.5/0.6, 0.6/0.2, 0.7/0.5, 0.8/0.8, 0.3/0.2, 0.6/0.7, 0.2/0.5, 0.4/0.8}{
+    \fill (\x,\y) circle (0.015);
+  }
+
+  % Draw hull
+  \draw[thick,blue] (A1)--(A2)--(A3)--(A4)--cycle;
+
+  % Draw hull points
+  \foreach \p in {A1,A2,A3,A4}{
+    \fill[red] (\p) circle (0.02);
+  }
+\end{scope}
+\end{tikzpicture}
+\]
+\caption{The convex hull of a set of points.} \label{fig_convex_hull}
+\end{figure}

@@ -1,0 +1,77 @@
+\documentclass{article}
+%---------------------------
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage[portrait, margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{lipsum}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0mm}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{multicol,multirow}
+\usepackage[nottoc]{tocbibind}
+\usepackage[titles]{tocloft}
+\usepackage{tikz}
+\usepackage{etoolbox}
+\usepackage{subcaption}
+
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+%---------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+
+\title{CRUST}
+\author{David Skocic}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\doublespacing
+%---------------------------
+\vspace{1.5in}
+\begin{center}
+\large MTH 496H - Honors Senior Project \\
+\large Fall Semester 2025 \\
+\large Advisor: Dr. Gregory Lupton \\
+\large Cleveland State University \\
+\large Department of Mathematics \& Statistics \\
+\end{center}
+\vspace{1in}
+%---------------------------
+\newpage
+
+\tableofcontents
+\newpage
+
+\begin{abstract}
+...
+\end{abstract}
+
+\newpage
+
+\input{Introduction and Background/Introduction and Background}
+
+\input{Geometrical Tools/Geometrical Tools}
+
+\section{The Medial Axis}
+
+
+\section{Sampling}
+\subsection{Local Feature Size}
+
+\section{The Crust}
+
+\section{Examples}
+
+\newpage
+\nocite{*}
+\bibliographystyle{apalike}
+\bibliography{CRUST}
+\end{document}

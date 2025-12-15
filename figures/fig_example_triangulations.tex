@@ -1,0 +1,41 @@
+\begin{figure}
+\[
+    \begin{tikzpicture}
+      % regular octagon as a node; change minimum size to scale
+      \node[
+        draw,
+        thick,
+        regular polygon,
+        regular polygon sides=8,
+        minimum size=4cm,    % controls overall size
+        rotate=22.5          % optional: rotate so a side is horizontal
+      ] (oct1) at (-3,0) {};
+    
+        % regular octagon as a node; change minimum size to scale
+      \node[
+        draw,
+        thick,
+        regular polygon,
+        regular polygon sides=8,
+        minimum size=4cm,    % controls overall size
+        rotate=22.5          % optional: rotate so a side is horizontal
+      ] (oct2) at (4,0) {};
+      
+      \foreach \i in {1,...,8}{
+        \fill (oct1.corner \i) circle (1.5pt);
+        \fill (oct2.corner \i) circle (1.5pt);
+      }
+      \foreach \i in {1,5,6,7,8}{
+        \draw[black, very thick] (oct1.corner 3) -- (oct1.corner \i);
+      }
+      \draw[black, very thick] (oct2.corner 4) -- (oct2.corner 2);
+      \draw[black, very thick] (oct2.corner 4) -- (oct2.corner 1);
+      \draw[black, very thick] (oct2.corner 1) -- (oct2.corner 5);
+      \draw[black, very thick] (oct2.corner 1) -- (oct2.corner 6);
+      \draw[black, very thick] (oct2.corner 8) -- (oct2.corner 6);
+
+    
+    \end{tikzpicture}
+\]
+\caption{Two example triangulations of a regular octagon.} \label{fig_example_triangulations}
+\end{figure}
