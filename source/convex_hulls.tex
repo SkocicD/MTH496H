@@ -1,8 +1,8 @@
 
-\subsection{Convex Hulls}
+\section{Convex Hulls}
 The first applicable geometrical tool of interest is the convex hull. A convex hull is used to take a set of points and make a convex shape out of them. It is easy to imagine that there are all sorts of ways to contain every point in a given set $S$ with some sort of convex polygon. You could, for example, draw a square so large that it contains every point in $S$, but an arbitrarily large shape is not very useful. A convex hull  fixes this problem, and adheres to the following definition:
 \begin{definition}
-    \textbf{(Convex Hull)} For a given set of points $S$, the convex hull is the smallest shape that contains every point in $S$.
+	\textbf{(Convex Hull)} For a given set of points $S$, the convex hull is the smallest shape that contains every point in $S$.
 \end{definition}
 
 Imagining such a shape for a given set of points is easy. To generate the convex hull for a set of points, imagine the points are nails in a wall. Start by tying a string to a nail at some extrema, say, the leftmost nail on the wall, and holding the string left of that. Then, rotate it all the way around all the other nails until it touches the first one again. This shape the string takes on is the convex hull.

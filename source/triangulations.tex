@@ -1,11 +1,11 @@
-\subsection{Triangulations}
-Triangulations are a key tool in the process of curve reconstruction. Specifically, a type of triangulation called a Delaunay triangulation is used to construct the crust of a given set of points. Before diving into Delaunay triangulations and some interesting results that follow, we first explore an easier problem, the triangulation of a polygon, and build up to Delaunay triangulations from there. 
+\section{Triangulations}
+Triangulations are a key tool in the process of curve reconstruction. Specifically, a type of triangulation called a Delaunay triangulation is used to construct the crust of a given set of points. Before diving into Delaunay triangulations and some interesting results that follow, we first explore an easier problem, the triangulation of a polygon, and build up to Delaunay triangulations from there.
 
-\subsubsection{Triangulations of Polygons}
+\subsection{Triangulations of Polygons}
 
 To begin, we must first define a triangulation of a polygon. \begin{definition}
-    \textbf{Triangulation of a Polygon in two dimensions} A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
-\end{definition}  
+	\textbf{Triangulation of a Polygon in two dimensions} A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
+\end{definition}
 
 In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect. The term 'maximal set' is used in the definition to ensure that there is no vertex of the polygon on the edge of any triangle.
 
@@ -18,49 +18,49 @@ A more interesting problem arises when you try to triangulate a shape that is no
 \begin{theorem}All polygons can be triangulated\end{theorem}
 
 \begin{proof}  %This proof comes from computational geometry by springer
-This is an inductive proof with the base case being a polygon with 3 vertices. This base case is trivial because a triangle need not be broken down into more triangular pieces. Now, the assumption that any polygon with $m$ or fewer vertices can be triangulated and our goal is to show that that a polygon with $n$ vertices with $n = m+1 > 3$ can be triangulated.
+	This is an inductive proof with the base case being a polygon with 3 vertices. This base case is trivial because a triangle need not be broken down into more triangular pieces. Now, the assumption that any polygon with $m$ or fewer vertices can be triangulated and our goal is to show that that a polygon with $n$ vertices with $n = m+1 > 3$ can be triangulated.
 
-I will begin by showing that a diagonal exists in the polygon, $P$, formed by $n$ vertices. Take some vertex $v$ from $P$ and label the vertices neighboring it $u$ and $w$. If $u$ and $w$ are connected and do not intersect with any edges of $P$, then a diagonal exists. Otherwise, there exists one ore more vertices of $P$ that are inside triangle $uvw$. Now, imagine a line parallel to segment $uw$ that goes through $v$. Let this line sweep toward segment $uw$ until it encounters a vertex of $P$ inside triangle $uvw$ and call this vertex $v'$. The segment $vv'$ must be a diagonal because there are no edges of $P$ between $v$ and $v'$ by the definition of $v'$. So, a diagonal must exist in $P$.
+	I will begin by showing that a diagonal exists in the polygon, $P$, formed by $n$ vertices. Take some vertex $v$ from $P$ and label the vertices neighboring it $u$ and $w$. If $u$ and $w$ are connected and do not intersect with any edges of $P$, then a diagonal exists. Otherwise, there exists one ore more vertices of $P$ that are inside triangle $uvw$. Now, imagine a line parallel to segment $uw$ that goes through $v$. Let this line sweep toward segment $uw$ until it encounters a vertex of $P$ inside triangle $uvw$ and call this vertex $v'$. The segment $vv'$ must be a diagonal because there are no edges of $P$ between $v$ and $v'$ by the definition of $v'$. So, a diagonal must exist in $P$.
 
-The existence of this diagonal means that $P$ can be broken into two polygons that share the diagonal as a common edge, with a total of $n+2$ vertices. There are $n+2$ because the $n$ outer edges of the polygon remain part of either new polygon, and the diagonal contributes one edge to each of the newly created polygon, adding two edges. Since each new polygon must have at least 3 vertices, the other must have at most $n-1 = m$ vertices. By the inductive hypothesis, each of these new polygons may be triangulated.
+	The existence of this diagonal means that $P$ can be broken into two polygons that share the diagonal as a common edge, with a total of $n+2$ vertices. There are $n+2$ because the $n$ outer edges of the polygon remain part of either new polygon, and the diagonal contributes one edge to each of the newly created polygon, adding two edges. Since each new polygon must have at least 3 vertices, the other must have at most $n-1 = m$ vertices. By the inductive hypothesis, each of these new polygons may be triangulated.
 
-\input{figures/fig_diagonal_creation}
+	\input{figures/fig_diagonal_creation}
 \end{proof}
 
 In the process of proving that it is always possible to triangulate any polygon, we have also generated a simple algorithm to triangulate any polygon. If we begin the same way as the proof, drawing a diagonal between some pair of vertices, two smaller shapes are created. Each of these shapes can undergo the same process and create two more shapes. This can be repeated recursively until all the shapes created by the splits are just triangles, so all the diagonals drawn must constitute a triangulation.
-\subsubsection{Triangulations of a Set of Points}
+\subsection{Triangulations of a Set of Points}
 
 In the previous section, I showed that any polygon can be triangulated. The method to do this started by drawing a single new edge to form a triangle using two preexisting edges. But what if there are no edges at all, and you just have a set of points? You could construct any number of polygons for a given set of points. To make this algorithmic, we must choose a specific one of these polygons to start to triangulate. To do this, we return to the familiar convex hull.
 
 \begin{definition}
-    \textbf{Triangulation of a set of Points} FILL OUT THIS DEFINITION
+	\textbf{Triangulation of a set of Points} FILL OUT THIS DEFINITION
 \end{definition}
 
 After computing the convex hull, our situation appears almost like it did in the previous section, but there are still points inside that are not accounted for. To continue down this path, we sincerely hope that the following theorem is true:
 
 \begin{theorem}
-    Any set of points $S$ has a triangulation, $T$, such that \textit{Hull(S)}$ \subset T$. --- notation might not be quite right here, we want the edges of the hull to be a part of the edges of T
+	Any set of points $S$ has a triangulation, $T$, such that \textit{Hull(S)}$ \subset T$. --- notation might not be quite right here, we want the edges of the hull to be a part of the edges of T
 \end{theorem}
 
 \begin{proof}
 
-We follow a similar method to the previous proof, using induction. Again, the base case is a set of 3 points, with the obvious triangulation of a triangle, which is also the convex hull of the points. Our hypothesis is that, assuming that a set of points $S$ of size $n$ has triangulation $T$ with \textit{Hull(S)}$ \subset T$, some $S' \supset S$ of size $n+1$ has triangulation $T'$ with \textit{Hull(S')}$ \subset T'$. 
+	We follow a similar method to the previous proof, using induction. Again, the base case is a set of 3 points, with the obvious triangulation of a triangle, which is also the convex hull of the points. Our hypothesis is that, assuming that a set of points $S$ of size $n$ has triangulation $T$ with \textit{Hull(S)}$ \subset T$, some $S' \supset S$ of size $n+1$ has triangulation $T'$ with \textit{Hull(S')}$ \subset T'$.
 
-There are two cases for the new vertex $v$ that belongs to $S'$ but not $S$. Either $v$ is inside \textit{Hull(S)}, or it is outside of it. We will examine each case independently:
+	There are two cases for the new vertex $v$ that belongs to $S'$ but not $S$. Either $v$ is inside \textit{Hull(S)}, or it is outside of it. We will examine each case independently:
 
-Explain that a point outside will have a new hull with two "new edges", and if these two edges are added to the previous triangulation, we still have a triangulation.
+	Explain that a point outside will have a new hull with two "new edges", and if these two edges are added to the previous triangulation, we still have a triangulation.
 
-Explain how a point inside the hull is in a triangle, and hence this triangle can just have each vertex connect to the point inside and maintain a triangulation
+	Explain how a point inside the hull is in a triangle, and hence this triangle can just have each vertex connect to the point inside and maintain a triangulation
 
-...
+	...
 
 \end{proof}
 
-\subsubsection{Delaunay Triangulations}
+\subsection{Delaunay Triangulations}
 Now that we know that we can generate some triangulation for any set of points, we can begin to look at a certain type of triangulation, the Delaunay Triangulation. The Delaunay Triangulation of a set of points has interesting properties and is the primary tool in generating the crust of a given set of points. But before we explore those properties, let us first define it.
 
 \begin{definition}
-    A \textbf{Delaunay Triangulation} is the triangulation of a set of points $S$ such that the circumcircle of each triangle only contains the vertices of that triangle, and no other points in $S$
+	A \textbf{Delaunay Triangulation} is the triangulation of a set of points $S$ such that the circumcircle of each triangle only contains the vertices of that triangle, and no other points in $S$
 \end{definition}
 \input{figures/fig_simple_delaunay}
 
@@ -70,10 +70,10 @@ Something you may have noticed in the definition of a Delaunay triangulation is 
 SHOW THAT THE EXISTENCE IS ALSO GUARANTEED
 
 \begin{theorem}
-    There is only one Delaunay Triangulation for given set of points $S$.
+	There is only one Delaunay Triangulation for given set of points $S$.
 \end{theorem}
 \begin{proof}
-    
+
 \end{proof}
 
 It is of note that if there are four points that are concentric, then there cannot be a triangulation that fits the Delaunay criteria. So, the four points have, in some sense, two valid Delaunay triangulations. We call these triangulations degenerate.
@@ -81,10 +81,10 @@ It is of note that if there are four points that are concentric, then there cann
 Another interesting property of Delaunay triangulations is that they guarantee that the smallest internal angle of any triangle in the shape is the highest out of all possible triangulations.
 
 \begin{theorem}
-    The Delaunay Triangulation has the highest minimum internal angle out of all possible triangulations
+	The Delaunay Triangulation has the highest minimum internal angle out of all possible triangulations
 \end{theorem}
 \begin{proof}
-    
+
 \end{proof}
 Effectively, Delaunay triangulations reduce "sliver triangles" which are very long, thin triangles.
 

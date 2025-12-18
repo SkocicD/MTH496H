@@ -1,0 +1,19 @@
+\section{The Crust}
+It is finally time to put the geometric tools that this paper has focused on so heavily to use to define the crust of a set of points. As a reminder, the crust is a method of curve reconstruction introduced by \cite{AMENTA1998125}, which is where all the definitions come from in this section. It begins with a set of points taken from a smooth curve with the assumption that they are close enough together to be reconstruction. This "close enough" condition is defined later in the section on sampling. The crust has the following simple definition:
+
+\begin{definition}[The Crust]
+	Let $S$ be a set of finite points in the plane, and let $V$ be the vertices of the Voronoi diagram of $S$. Next let $S'=S \cup V$ and consider the Delaunay Triangulation of $S'$. Any edge of the Delaunay triangulation of $S'$ that connects two points in $S$ is an edge of the crust.
+\end{definition}
+
+INSERT A FIGURE IN THIS SECTION WITH AN EXAMPLE SIMILAR TO PAGE 3 OF THE PAPER
+
+This is a fairly simple definition, and yet I claim that it can often successfully reconstruct a curve from a set of points in the plane. Before formally proving that this is true for a certain sampling condition, I will provide some intuition on why this is the case. To do this, I will give an alternate but equivalent definition of the crust that uses the familiar empty circle property:
+
+\begin{definition}[Alternate Definition of The Crust]
+	Let $S$ be a set of finite points in the plane, and let $V$ be the vertices of the Voronoi diagram of $S$. An edge connecting two points in $S$ belongs to the crust of $S$ if there is a disk containing no other points in $S \cup V$.
+\end{definition}
+
+It also helps to note that Voronoi vertices are at the corners of regions of proximity, so they are closer to the points from $S$ in adjacent Voronoi regions than to any other points in $S$. This means that points that obey the alternative definition are connected with those in nearby proximity regions, not simply points that are closest together.
+
+Also, looking at a few examples of Voronoi diagrams of many points, one can see that the diagram draws a line approximately through the middle of the shape that they create. This line is called the medial axis and will be explained further in the next section, but the idea is that the Voronoi edges trace out a line through the middle of a shape, then the empty circle properly serves to prevent lines from being drawn through this center line of the shape.
+
