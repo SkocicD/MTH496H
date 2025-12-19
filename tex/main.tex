@@ -14,11 +14,14 @@
 \usepackage{tikz}
 \usepackage{etoolbox}
 \usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{positioning}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\algoref}[1]{Algorithm~\ref{#1}}
 %---------------------------
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -56,14 +59,14 @@
 
 \newpage
 
-\input{source/intro.tex}
-\input{source/convex_hulls.tex}
-\input{source/triangulations.tex}
-\input{source/voronoi_diagrams.tex}
-\input{source/crust.tex}
-\input{source/medial_axis.tex}
-\input{source/sampling.tex}
-\input{source/examples.tex}
+\input{sections/intro.tex}
+\input{sections/convex_hulls.tex}
+\input{sections/triangulations.tex}
+\input{sections/voronoi_diagrams.tex}
+\input{sections/crust.tex}
+\input{sections/medial_axis.tex}
+\input{sections/sampling.tex}
+\input{sections/examples.tex}
 
 
 \newpage

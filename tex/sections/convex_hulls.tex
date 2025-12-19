@@ -1,21 +1,77 @@
-
 \section{Convex Hulls}
-The first applicable geometrical tool of interest is the convex hull. A convex hull is used to take a set of points and make a convex shape out of them. It is easy to imagine that there are all sorts of ways to contain every point in a given set $S$ with some sort of convex polygon. You could, for example, draw a square so large that it contains every point in $S$, but an arbitrarily large shape is not very useful. A convex hull  fixes this problem, and adheres to the following definition:
-\begin{definition}
-	\textbf{(Convex Hull)} For a given set of points $S$, the convex hull is the smallest shape that contains every point in $S$.
+The first geometric tool of interest is the convex hull.
+A convex hull is used to take a set of points $S$ and connect them to make a convex shape that contains every point in $S$.
+Here, containing a point means that it is either be inside the shape or on its edge.
+It is easy to imagine that there are all sorts of ways to contain every point in $S$ with some sort of convex polygon.
+You could, for example, draw a square so large that it contains every point in $S$, but a shape unrelated to how the points are arranged in $S$ provides almost no more utility than just knowing $S$.
+A convex hull fixes this problem, and adheres to the following definition:
+\begin{definition}[Convex Hull] For a given set of points $S$, the convex hull is the intersection of every convex shape that contains every point in $S$.
 \end{definition}
 
-Imagining such a shape for a given set of points is easy. To generate the convex hull for a set of points, imagine the points are nails in a wall. Start by tying a string to a nail at some extrema, say, the leftmost nail on the wall, and holding the string left of that. Then, rotate it all the way around all the other nails until it touches the first one again. This shape the string takes on is the convex hull.
+Imagining such a shape for a given set of points is easy.
+To generate the convex hull for a set of points, imagine the points are nails in a wall.
+Start by tying a string to a nail at some extrema, say, the leftmost nail on the wall, and holding the string left of that.
+Then, rotate it all the way around all the other nails until it touches the first one again.
+This shape the string takes on is the convex hull.
 
-INSERT FIGURE SHOWING THIS IDEA, SHOWING A BIG SQUARE AROUND THE POINTS, AND SHOWING THE FULL CONVEX HULL
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/hull_a.png}
+		\label{fig:convex_hull_a}
+	\end{subfigure}\hspace{12pt}
+	\begin{subfigure}{0.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/hull_b.png}
+		\label{fig:convex_hull-b}
+	\end{subfigure}
+	\caption{A set of points next to their convex hull}
+	\label{fig:convex_hull}
+\end{figure}
 
-The convex hull is a convenient tool because it has a clear definition and because convex shapes tend to be simple to work with. Also, it can serve as a starting point in an algorithm that starts with an unlabeled set of points like the crust. Taking the convex hull at least gives us a place to start connecting our points, even if its usefulness may not initially be clear.
+The convex hull is a convenient tool because it has an intuitive definition and because convex shapes tend to be simple to work with.
+Also, it can serve as a starting point in an algorithm that starts with an unlabeled set of points like the crust.
+Taking the convex hull at least gives us a place to start connecting our points, even if its usefulness may not initially be clear.
 
-Fortunately, lots of time has been spent finding optimal algorithms for computing the convex hull of a set of points. Here, computing the convex hull really means to find which points from $S$ are vertices of the hull. This can be done in a variety of ways. One being a sort of inductive method that starts with 3 points, then add one at a time from the set, removing points that end up making the shape nonconvex. Another algorithm behaves very similarly to the string wrapping algorithm. While these algorithms are both intuitive, they are not asymptotically optimal.
+Fortunately, lots of time has been spent finding optimal algorithms for computing the convex hull of a set of points.
+Computing the convex hull really means to find which points from $S$ are vertices of the hull.
+This can be done in a variety of ways.
+One being a sort of inductive method that starts with 3 points, then add one at a time from the set, removing points that end up making the shape nonconvex.
+Another algorithm behaves very similarly to the string wrapping algorithm.
+While these algorithms are both intuitive, there is another class of algorithms that take less time to compute.
 
-There also exist multiple algorithms that are asymptotically optimal, with time complexity \textit{O(nlogn)}. From these I will choose my favorite, which uses a divide and conquer approach. I choose this method because of its satisfying recursive nature, and because it is the algorithm that most easily extends to a third dimension.
+There are numerous algorithms that belong to this optimal class, all with time complexity $O(n \log n)$.
+From these I will focus on one which uses a divide and conquer approach.
+I choose this method because of its satisfying recursive nature, and because it is the algorithm that most easily extends to a third dimension.
+My implementation of this algorithm is largely inspired by \cite{MR2790764}
 
-\textit{this algorithm comes from O'Rourke}
-To begin, order the points by their x-coordinate. Next, separate the points into two groups of (approximately) equal size. Now repeat this for both of the new groups, and again for the groups they create until all groups have 1 or 2 points. Now the convex hull is trivial, just a line connecting any two points. The magic of the algorithm comes when bringing the groups back together. \textbf{finish this}
+The pseudocode for this algorithm is shown in \algoref{alg:convex_hull}. But it begins by taking in a list of coordinates sorted by their x-value.
+Since the algorithm is recursive it must have a base case, and here that base case is if there are three or fewer points in $S$ because a triangle is already a convex polygon.
+When there are more than three points in $S$, separate the points into the left half and the right half and generate the convex hull of those points.
+This splitting continues until the hulls are triangles or line segments, which is the base case.
+The magic of the algorithm comes when bringing the groups back together.
+To do this there are two convex hulls, one on the right and one on the left.
+To combine them, a tangent line is found on the top and bottom (need a figure for this).
+\textit{continue this description}
 
-\textit{remember to talk about the actual time complexity of this algorithm versus time complexity of the others mentioned}
+\begin{algorithm}
+	\caption{Convex Hull}
+	\label{alg:convex_hull}
+	\begin{algorithmic}
+		\Require{$S$, a list of points sorted by their x-coordinate}
+		\Function{ConvexHull}{$S$}
+		\If{$|S| \leq 4$}
+		\State \Return $S$
+		\Else
+		\State $L \gets \Call{ConvexHull}{S[0 \dots \lfloor \frac{|S|}{2} \rfloor]}$
+		\State $R \gets \Call{ConvexHull}{S[\lfloor \frac{|S|}{2} \rfloor \dots |S|-1]}$
+		\State \Return \Call{Combine}{L, R}
+		\EndIf
+		\EndFunction
+		\Function{Combine}{$L$,$R$}
+		\State Fill this in
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
