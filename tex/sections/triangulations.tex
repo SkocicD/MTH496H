@@ -3,8 +3,8 @@ Triangulations are a key tool in the process of curve reconstruction. Specifical
 
 \subsection{Triangulations of Polygons}
 
-To begin, we must first define a triangulation of a polygon. \begin{definition}
-	\textbf{Triangulation of a Polygon in two dimensions} A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
+To begin, we must first define a triangulation of a polygon.
+\begin{definition}[Triangulation of a Polygon] A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
 \end{definition}
 
 In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect. The term 'maximal set' is used in the definition to ensure that there is no vertex of the polygon on the edge of any triangle.
@@ -59,18 +59,75 @@ After computing the convex hull, our situation appears almost like it did in the
 \subsection{Delaunay Triangulations}
 Now that we know that we can generate some triangulation for any set of points, we can begin to look at a certain type of triangulation, the Delaunay Triangulation. The Delaunay Triangulation of a set of points has interesting properties and is the primary tool in generating the crust of a given set of points. But before we explore those properties, let us first define it.
 
-\begin{definition}
-	A \textbf{Delaunay Triangulation} is the triangulation of a set of points $S$ such that the circumcircle of each triangle only contains the vertices of that triangle, and no other points in $S$
+\begin{definition}[Delaunay Triangluation]
+	The triangulation of a set of points $S$ such that the circumcircle of each triangle only contains the vertices of that triangle, and no other points in $S$
 \end{definition}
 \input{figures/fig_simple_delaunay}
 
 
-Something you may have noticed in the definition of a Delaunay triangulation is that I claimed that it is \textit{the} triangulation that fits the criteria, not just some triangulation that does. This uniqueness is an important property of Delaunay Triangulations, but it is not at all apparent. Let us show why this is true:
+Something you may have noticed in the definition of a Delaunay triangulation is that I claimed that it is \textit{the} triangulation that fits the criteria, not just some triangulation that does.
+This uniqueness is an important property of Delaunay Triangulations, but it is not at all apparent.
+This feature can be difficult to prove, but for now, just take it to be true.
+An explanation of this will be provided in the section on Voronoi diagrams.
+For now, we should show that a triangulation like this exists for any set of points, otherwise this definition wouldn't be very useful in an algorithm meant for any set of points.
 
-SHOW THAT THE EXISTENCE IS ALSO GUARANTEED
+Even before proving this, a few more results of will help better understand some properties of Delaunay triangulations.
+I will first begin by proposing a way to compare triangulations to one another on the basis of the interior angles of their triangles.
+Consider two triangulations $T$ and $T'$ of the same set of points $S$, each with $n$ triangles.
+Each of these triangulations has a set $A=\{a_1, a_2, ..., a_{3n}\}$ of interior angles, ordered from smallest to largest.
+We say that $T>T'$ if $A$ is lexiographically larger than $A'$.
+
+Next, I will introduce three classifications of edges in a triangulation, 'thin', 'fat', and 'locked'.
+These classifications come into play when looking at the two triangles adjacent to an edge, making them a local feature of a triangulation, rather than a feature about the whole triangulation itself.
+Since these edges have a triangle on each side, they serve as a diagonal of a quadrilateral.
+I will refer to this quadrilateral as the 'surrounding quadrilateral'.
+The main idea with these classifications is the relationship with the other diagonal created by the other pair of nonadjacent vertices.
+Changing the diagonal of a quadrilateral from one diagonal to the other is considered 'flipping,' which is an idea of great value in the study of triangluations.
+
+\begin{definition}[Thin, Fat, and Locked Edges of a Triangulation]
+	A locked edge is an edge whose surrounding quadrilateral is nonconvex, and thus cannot be flipped without violating the definition of a triangulation of a polygon.
+	If an edge is not locked, it is a part of some triangulation of $T$ of its surrounding quadrilateral, with $T'$ being the triangulation after flipping.
+	An edge is thin if $T<T'$ and fat if $T>T'$
+\end{definition}
+
+Now, we can relate the definition of thin and thick edges to the empty circle definition of the Delaunay triangulation.
+
+\begin{theorem}[Thales']
+	Consider a circle centered at point $O$ concentric with points $P, Q,$ and $B$.
+	For some point $A$ inside the circle and $C$ outside the circle, both on the same side of $P$ and $Q$ as $B$, $\angle PCQ < \angle PBQ < \angle PCQ $.
+
+	ADD FIGURE
+\end{theorem}
+
+
+\begin{proof}
+	It is well known that an inscribed angle is half the central angle. Consider a circle that again goes through $P$ and $Q$, but now goes through $C$.
+	This new circle will be centered at a different point, say $O'$.
+	This radius of this new circle must be larger than the original since it connects a point outside the original.
+	Because $P, Q,$ and $C$ are concentric, $\overline{PO'}=\overline{CO'}=\overline{QO'}$, but $\overline{PQ}$ remains the same as it was in the original circle.
+	This means that the isoscles $\triangle PO'Q$ has its equal legs longer than $\triangle POQ$, which implies that the angle between these legs is smaller.
+	This smaller angle is the central angle corresponding to the inscribed $\angle PCQ$.
+	So since $\angle POQ > \angle PO'Q$, so too is $\angle PBQ > \angle PCQ$.
+	The same argument follows for $\angle PAQ > \angle PBQ$.
+\end{proof}
+
+\begin{corollary}
+	The triangles created by bisecting a quadrilateral are empty of the fourth vertex if and only if the edge bisecting them is thin.
+\end{corollary}
+
+\begin{proof}
+	Consider a convex quadrilateral $ABCD$ with a circle connecting $A, B,$ and $C$, with $D$ inside the circle, and bisect $ABCD$ with $\overline{AC}$.
+
+	For one diagonal, label the angles Let this quadrilateral be
+\end{proof}
+
+\begin{corollary}
+	The Delaunay triangulation contains no thin edges.
+\end{corollary}
+
 
 \begin{theorem}
-	There is only one Delaunay Triangulation for given set of points $S$.
+	A Delaunay Triangulation exists for any given set of points $S$.
 \end{theorem}
 \begin{proof}
 
