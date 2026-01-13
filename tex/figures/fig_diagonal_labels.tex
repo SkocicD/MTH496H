@@ -1,0 +1,55 @@
+\begin{figure}
+	\[
+		\begin{tikzpicture}[scale=2]
+			% Draw the circle
+			\draw (0,0) circle (1);
+
+			% Define vertices (TikZ uses degrees)
+			\coordinate (A) at (110:1);
+			\coordinate (B) at (180:1);
+			\coordinate (C) at (275:1);
+			\coordinate (D) at (0:.5);
+
+			% Draw the triangle
+			\draw (A) -- (B) -- (C) -- (D) -- cycle;
+			\draw (A) -- (C);
+			\draw (B) -- (D);
+
+			% Optional: mark the vertices
+			\fill (A) circle (1pt);
+			\fill (B) circle (1pt);
+			\fill (C) circle (1pt);
+			\fill (D) circle (1pt);
+
+			% angle labels
+			\draw pic["$a_1$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = A--C--B};
+			\draw pic["$b_1$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = A--D--B};
+
+			\draw pic["$a_2$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = B--A--C};
+			\draw pic["$b_2$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = B--D--C};
+
+			\draw pic["$a_3$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = C--A--D};
+			\draw pic["$b_3$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = C--B--D};
+
+			\draw pic["$a_4$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = D--C--A};
+			\draw pic["$b_4$", draw, angle radius=4mm,angle eccentricity=1.6]
+				{angle = D--B--A};
+
+
+			% Labels
+			\node[above] at (A) {$A$};
+			\node[left] at (B) {$B$};
+			\node[below] at (C) {$C$};
+			\node[right] at (D) {$D$};
+		\end{tikzpicture}
+	\]
+	\caption{Angle labels used in \lemref{lem_thin_fat}}
+	\label{fig_diagonal_labels}
+\end{figure}
