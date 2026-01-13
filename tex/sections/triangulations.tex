@@ -57,7 +57,9 @@ After computing the convex hull, our situation appears almost like it did in the
 \end{proof}
 
 \subsection{Delaunay Triangulations}
-Now that we know that we can generate some triangulation for any set of points, we can begin to look at a certain type of triangulation, the Delaunay Triangulation. The Delaunay Triangulation of a set of points has interesting properties and is the primary tool in generating the crust of a given set of points. But before we explore those properties, let us first define it.
+Now that we know that we can generate some triangulation for any set of points, we can begin to look at a specific type of triangulation, the Delaunay triangulation.
+The Delaunay triangulation properties that give it more utility than other triangluations, and is the primary tool in generating the crust.
+This section is dedicated to defining it and exploring some interesting results to better understand why it is used to compute the crust.
 
 \begin{definition}[Delaunay Triangluation]
 	The triangulation of a set of points $S$ such that the circumcircle of each triangle only contains the vertices of that triangle, and no other points in $S$
@@ -66,21 +68,20 @@ Now that we know that we can generate some triangulation for any set of points, 
 
 
 Something you may have noticed in the definition of a Delaunay triangulation is that I claimed that it is \textit{the} triangulation that fits the criteria, not just some triangulation that does.
-This uniqueness is an important property of Delaunay Triangulations, but it is not at all apparent.
-This feature can be difficult to prove, but for now, just take it to be true.
-An explanation of this will be provided in the section on Voronoi diagrams.
-For now, we should show that a triangulation like this exists for any set of points, otherwise this definition wouldn't be very useful in an algorithm meant for any set of points.
+This uniqueness is an important property of the Delaunay triangulation, but it is not at all apparent.
+Unfortunately this feature can be difficult to prove, and must be taken to be true for now.
+I will return to this discussion and provide an explanation of this will be provided in the section on Voronoi diagrams.
+Taking a step back, we should show that a Delaunay triangulation exists for any set of points, otherwise it would be useless in computational geometry.
 
-Even before proving this, a few more results of will help better understand some properties of Delaunay triangulations.
-I will first begin by proposing a way to compare triangulations to one another on the basis of the interior angles of their triangles.
+Even before proving the existence of the Delaunay triangulation, I must build up to it with a few lemmata.
+I will begin by proposing a way to compare triangulations to one another on the basis of the interior angles of their triangles.
 Consider two triangulations $T$ and $T'$ of the same set of points $S$, each with $n$ triangles.
 Each of these triangulations has a set $A=\{a_1, a_2, ..., a_{3n}\}$ of interior angles, ordered from smallest to largest.
 We say that $T>T'$ if $A$ is lexiographically larger than $A'$.
 
 Next, I will introduce three classifications of edges in a triangulation, 'thin', 'fat', and 'locked'.
 These classifications come into play when looking at the two triangles adjacent to an edge, making them a local feature of a triangulation, rather than a feature about the whole triangulation itself.
-Since these edges have a triangle on each side, they serve as a diagonal of a quadrilateral.
-I will refer to this quadrilateral as the 'surrounding quadrilateral'.
+Since these edges have a triangle on each side, they serve as a diagonal of a quadrilateral which I will refer to as the 'surrounding quadrilateral'.
 The main idea with these classifications is the relationship with the other diagonal created by the other pair of nonadjacent vertices.
 Changing the diagonal of a quadrilateral from one diagonal to the other is considered 'flipping,' which is an idea of great value in the study of triangluations.
 
@@ -90,15 +91,14 @@ Changing the diagonal of a quadrilateral from one diagonal to the other is consi
 	An edge is thin if $T<T'$ and fat if $T>T'$
 \end{definition}
 
-Now, we can relate the definition of thin and thick edges to the empty circle definition of the Delaunay triangulation.
+Now, I will relate the definition of thin and thick edges to the empty circle definition of the Delaunay triangulation.
 
-\begin{theorem}[Thales']
+\begin{lemma}[Thales']
 	Consider a circle centered at point $O$ concentric with points $P, Q,$ and $B$.
 	For some point $A$ inside the circle and $C$ outside the circle, both on the same side of $P$ and $Q$ as $B$, $\angle PCQ < \angle PBQ < \angle PCQ $.
 
 	ADD FIGURE
-\end{theorem}
-
+\end{lemma}
 
 \begin{proof}
 	It is well known that an inscribed angle is half the central angle. Consider a circle that again goes through $P$ and $Q$, but now goes through $C$.
@@ -117,38 +117,52 @@ Now, we can relate the definition of thin and thick edges to the empty circle de
 
 \begin{proof}
 	Consider a convex quadrilateral $ABCD$ with a circle connecting $A, B,$ and $C$, with $D$ inside the circle, and bisect $ABCD$ with $\overline{AC}$.
+	Label the angles as shown in THE FIGURE.
+	Since $\triangle ABD$ is inside the circumcircle, $\angle a_1 < \angle b_1$ by Thales' theorem.
+	With similar reasoning plus the angle sum of a triangle, $\angle a_2 < \angle b_2, \angle a_3 < \angle b_3,$ and $\angle a_4 < \angle b_4$.
+	The 'a' angles correspond to $\overline{AC}$ and the 'b' angles to $\overline{BD}$.
+	Since there is some 'b' greater than each 'a', the 'b' angles are lexiographically greater than the 'a' angles, hence $\overline{AC}$ is a thin edge.
 
-	For one diagonal, label the angles Let this quadrilateral be
+	To prove the reverse direction, one can take D is outside the circumcircle and follow the same line of reasoning to show that $\overline{AC}$ must be thick.
 \end{proof}
 
-\begin{corollary}
+\begin{lemma}
 	The Delaunay triangulation contains no thin edges.
-\end{corollary}
-
-
-\begin{theorem}
-	A Delaunay Triangulation exists for any given set of points $S$.
-\end{theorem}
+\end{lemma}
 \begin{proof}
-
+	Since all triangles in a Delaunay triangulation are empty of other points in the set, by the previous corollary, none of the edges may be thin.
 \end{proof}
 
-It is of note that if there are four points that are concentric, then there cannot be a triangulation that fits the Delaunay criteria. So, the four points have, in some sense, two valid Delaunay triangulations. We call these triangulations degenerate.
+This theorem serves an alternate definition to the Delaunay triangulation.
+In some texts, this is the way they are defined, reaching the empty circle property from a series of results in the other direction.
+Either way, this result helps expose the property that the Delaunay triangulation is the triangulation that best reduces triangles which are very long and thin.
+Perhaps this property serves to make the Delaunay triangulation the 'natural' choice for many applications, ensuring that triangles connect to their "nearest" neighbors, rather than extending far across the shape.
 
-Another interesting property of Delaunay triangulations is that they guarantee that the smallest internal angle of any triangle in the shape is the highest out of all possible triangulations.
+With this new definition, we one step away from proving that the Delaunay triangulation must always exist.
+The idea behind this proof is that thin edges can be flipped to thick edges one by one until there are no more thin edges, which makes it a Delaunay triangulation by our new definition.
 
 \begin{theorem}
-	The Delaunay Triangulation has the highest minimum internal angle out of all possible triangulations
+	A Delaunay triangulation exists for any (finite) set of points $S$.
 \end{theorem}
 \begin{proof}
-
+	Starting from any triangulation $T$, one may flip any thin edge to a thick edge to create $T'$.
+	By the definition of thin and fat edges, a flip will cause the smallest angle in the triangles adjacent to the edge to strictly increase, while leaving all other angles the same.
+	As a result, if we call the index of this original smallest angle $i$ in the ordering of the angles in $T$, all angles before $i$ in $T'$ will remain the same, and the value at $i$ will be strictly greater than before.
+	This means that after flipping any thin edge to a thick edge to go from $T$ to $T'$, $T' > T$.
+	Since there are only a finite number of triangulations of $S$ and flipping thin edges to thick creates a strictly increasing sequence of triangulations, there must be some 'maximum' triangulation where this process must terminate.
+	At this 'maximum' triangulation, there must be no thin edges, otherwise there would be some greater triangulation, and if there are no thin edges, the triangulation must be Delaunay.
 \end{proof}
-Effectively, Delaunay triangulations reduce "sliver triangles" which are very long, thin triangles.
 
-talk about angle sequences and transition that into "flipping"
+So, the existence of the Delaunay triangulation is finally guaranteed.
+But it is important to note that this proof still does not guarantee that we have \textit{the} Delaunay triangulation, just that we have \textit{one} of them.
+In the process of stepping between increasing triangulations, it would be reasonable to imagine flipping the 'wrong' edge, walking down a path to a local maximum different than if edges are flipped.
+It turns out that this is not the case, which is a fascinating convenient result when designing an algorithm to compute the Delaunay triangulation, for we can flip edges in any order and still eventually reach the Delaunay triangulation.
+If this were not the case, we would need to put much more care into the design of our algorithm.
 
-show how you can get from one triangulation to the Delaunay triangulation using progressive steps
 
-dive into talking about the 'flip graph'
+It is of note that all the results in this section have dealt with points in \textit{general position}.
+If there are four points that are concentric, then there cannot be a triangulation that fits the Delaunay criteria.
+So in this case, there is in some sense, two valid Delaunay triangulations.
+We call these triangulations degenerate.
+I will not deal with these here since in the general case, randomly sampled points have almost no chance of four concentric points.
 
-show the connection to voronoi diagrams
