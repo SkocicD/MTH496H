@@ -1,5 +1,7 @@
 \section{Triangulations}
-Triangulations are a key tool in the process of curve reconstruction. Specifically, a type of triangulation called a Delaunay triangulation is used to construct the crust of a given set of points. Before diving into Delaunay triangulations and some interesting results that follow, we first explore an easier problem, the triangulation of a polygon, and build up to Delaunay triangulations from there.
+Triangulations are a key tool in the process of curve reconstruction.
+Specifically, a type of triangulation called a Delaunay triangulation is used to construct the crust of a given set of points.
+Before diving into Delaunay triangulations and some interesting results that follow, we first explore an easier problem, the triangulation of a polygon, and build up to Delaunay triangulations from there.
 
 \subsection{Triangulations of Polygons}
 
@@ -7,9 +9,14 @@ To begin, we must first define a triangulation of a polygon.
 \begin{definition}[Triangulation of a Polygon] A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
 \end{definition}
 
-In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect. The term 'maximal set' is used in the definition to ensure that there is no vertex of the polygon on the edge of any triangle.
+In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect.
+The term 'maximal set' is used in the definition to ensure that there is no vertex of the polygon on the edge of any triangle.
 
-As an example, let's look at an easy case: a convex octagon. It is easy to pick out a way to triangulate this shape: just start at one vertex and draw lines to every other vertex as shown in \figref{fig_example_triangulations}. It is easy to see how this technique can extend to any convex n-gon to create a triangulation with n-2 triangles. Something of note is that there can be more than one way to triangulate a polygon, with another example shown in \figref{fig_example_triangulations}. Is it possible that some triangulations are better than others? The fact that there is a section dedicated to a specific type, the Delaunay triangulation, should be a clue here, and the reason why is explored in that section.
+As an example, let's look at an easy case: a convex octagon.
+It is easy to pick out a way to triangulate this shape: just start at one vertex and draw lines to every other vertex as shown in \figref{fig_example_triangulations}.
+It is easy to see how this technique can extend to any convex n-gon to create a triangulation with n-2 triangles.
+Something of note is that there can be more than one way to triangulate a polygon, with another example shown in \figref{fig_example_triangulations}.
+Is it possible that some triangulations are better than others? The fact that there is a section dedicated to a specific type, the Delaunay triangulation, should be a clue here, and the reason why is explored in that section.
 
 \input{figures/fig_example_triangulations}
 
@@ -77,7 +84,7 @@ Even before proving the existence of the Delaunay triangulation, I must build up
 I will begin by proposing a way to compare triangulations to one another on the basis of the interior angles of their triangles.
 Consider two triangulations $T$ and $T'$ of the same set of points $S$, each with $n$ triangles.
 Each of these triangulations has a set $A=\{a_1, a_2, ..., a_{3n}\}$ of interior angles, ordered from smallest to largest.
-We say that $T>T'$ if $A$ is lexiographically larger than $A'$.
+We say that $T>T'$ if $A$ is lexicographically larger than $A'$.
 
 Next, I will introduce three classifications of edges in a triangulation, 'thin', 'fat', and 'locked'.
 These classifications come into play when looking at the two triangles adjacent to an edge, making them a local feature of a triangulation, rather than a feature about the whole triangulation itself.
@@ -123,7 +130,7 @@ Now, I will relate the definition of thin and thick edges to the empty circle de
 	Since $\triangle ABD$ is inside the circumcircle, $\angle a_1 < \angle b_1$ by Thales' theorem.
 	With similar reasoning plus the angle sum of a triangle, $\angle a_2 < \angle b_2, \angle a_3 < \angle b_3,$ and $\angle a_4 < \angle b_4$.
 	The 'a' angles correspond to $\overline{AC}$ and the 'b' angles to $\overline{BD}$.
-	Since there is some 'b' greater than each 'a', the 'b' angles are lexiographically greater than the 'a' angles, hence $\overline{AC}$ is a thin edge.
+	Since there is some 'b' greater than each 'a', the 'b' angles are lexicographically greater than the 'a' angles, hence $\overline{AC}$ is a thin edge.
 
 	To prove the reverse direction, one can take D is outside the circumcircle and follow the same line of reasoning to show that $\overline{AC}$ must be thick.
 \end{proof}
