@@ -23,6 +23,7 @@ class line:
             self.a = y2-y1
             self.b = x1-x2
             self.c = self.a*x1+self.b*y1
+            self.length = dist(self.p1, self.p2)
 
         if a is not None and b is not None and c is not None:
             self.a = a
@@ -69,9 +70,9 @@ class line:
     def has_vertex(self, v):
         return self.p1 == v or self.p2 == v
 
-    def plot(self, ax):
+    def plot(self, ax, color='k'):
         xs, ys = list(zip(self.p1, self.p2))
-        ax.plot(xs, ys, color='k')
+        ax.plot(xs, ys, color=color)
 
     def __eq__(self, o):
         p1, p2 = sorted([self.p1, self.p2])
@@ -111,6 +112,11 @@ class triangle:
 
     def has_vertex(self, v):
         return v in self.ps
+
+    def is_obtuse(self):
+        # make a,b,c the lengths of the edges, c longest
+        a, b, c = sorted([edge.length for edge in self.edges])
+        return c**2 > a**2 + b**2
 
 
 def watsons(vertices):
@@ -182,8 +188,6 @@ if __name__ == '__main__':
             for tri in tris:
                 for edge in tri.edges:
                     edges.add(edge)
-                # for p in tri.ps:
-                #     print(p)
 
             ax.clear()
             ax.set_xlim(0, 10)
