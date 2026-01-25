@@ -1,5 +1,6 @@
 from voronoi_diagram import voronoi
-from bowyer_watson import watsons
+from delaunay_triangulation import delaunay
+from geometry import Point
 import matplotlib.pyplot as plt
 
 
@@ -8,11 +9,11 @@ def crust(points):
     V, _ = voronoi(S)
     S_prime = S + V
 
-    delaunay = watsons(S_prime)
+    triangulation = delaunay(S_prime)
 
     crust_edges = []
 
-    for tri in delaunay:
+    for tri in triangulation:
         for edge in tri.edges:
             if edge.p1 in S and edge.p2 in S:
                 crust_edges.append(edge)
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     def on_click(event):
         if ax := event.inaxes:
             x, y = event.xdata, event.ydata
-            points.append((x, y))
+            points.append(Point(x, y))
 
             crust_edges = crust(points)
 
@@ -36,7 +37,7 @@ if __name__ == '__main__':
             ax.set_title("Click anywhere inside the axes")
 
             for p in points:
-                plt.plot(p[0], p[1], 'ko')
+                p.plot(ax)
             for edge in crust_edges:
                 edge.plot(ax, color='r')
             event.canvas.draw_idle()
