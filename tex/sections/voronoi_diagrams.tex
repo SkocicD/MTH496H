@@ -14,3 +14,35 @@ The following is a formal definition of the Voronoi region from Devadoss and O'R
 	\[ \mathrm{Vor}(p) = \lbrace x\in \mathbb{R} \hspace{4pt} | \hspace{4pt} ||x-p|| \le ||x-q|| \hspace{4pt} \forall q \in S \rbrace \]
 \end{definition}
 
+
+
+A Voronoi region can also be defined as the intersection of half-planes.
+In particular, for a region corresponding to a given point $p$, draw a line segment any other point and find its perpendicular bisector and track the half-plane that contains $p$.
+Do this for all other points in the set, and take the intersection of all the half planes containing $p$.
+This intersection is exactly the Voronoi region of $p$.
+
+A nice feature of this definition is that it makes clear that all Voronoi regions are convex.
+This follows from the INSERT THEOREM FROM CONVEX HULL SECTION.
+This definition is perhaps also more suggestive of the fact that there are points that are equidistant to multiple points in $S$: those that lie on the perpendicular bisectors that make up the edges of a Voronoi region.
+It is this collection of points that is of interest to us.
+In fact, they are how the Voronoi diagram is defined:
+
+\begin{definition}[Voronoi Diagram]
+	The Voronoi diagram of a set of points $S$ is the collection of all points in the plane that are on the boundary of a Voronoi region.
+\end{definition}
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figures/voronoi_diagram.png}
+	\label{fig:voronoi_diagram.png}
+\end{figure}
+
+With this definition, it is clear that there is only a single valid Voronoi diagram for each point in $S$.
+This follows because each Voronoi region can be constructed as an intersection of regions, which has no ambiguity, and the Voronoi diagram is constructed directly from the edges of those unambiguous regions.
+And the Voronoi diagram obviously must also exist because you can always take the intersection of any number of regions.
+So, we don't have to put in all the work that we did for the Delaunay triangulation to show these properties, which will come in handy shortly.
+
+Let's turn our attention towards the edges and vertices of the Voronoi diagram. A Voronoi vert
+
+
+
+
