@@ -1,11 +1,15 @@
 \section{Voronoi Diagrams}
 
 The third and final tool of interest for the crust is the Voronoi diagram.
-Similarly to the other tools introduced so far, the Voronoi diagram takes in a set of points $S$and returns a structure with useful properties.
-But instead of connecting the points in a specific way, the Voronoi diagram draws lines between the points to divide the entire plane into \textit{Voronoi}.
-Each of these regions contains one point in $S$, say $p$, and is constructed such that any other point is in the region is closer to $p$ than any other point in $S$.
-This definition is much more intuitive than that of the Delaunay triangulation, and lends itself to a more obvious set of applications;
-It is not hard to imagine that it is useful to know what the closest point is wherever you are in the plane.
+Similarly to the other tools introduced so far, the Voronoi diagram takes in a set of points $S$ and returns a structure with useful properties.
+But instead of connecting the points in a specific way, the Voronoi diagram consists of lines that pass in between the points to divide the plane into \textit{Voronoi regions}.
+Each of these regions contains a single $p\in S$, and is constructed such that any other point is in the region is closer to $p$ than any other point in $S$.
+This definition is often much more intuitive than that of the Delaunay triangulation, and lends itself to a wide array of applications.
+For instance, to find the nearest post office for any given house on a map, the map could be separated into Voronoi regions where $S$ are the locations of the post offices.
+Then, whichever region a house falls into is simply nearest to the corresponding post office.
+Voronoi diagrams come up in nature, too;
+if many structures began to grow from a starting point at the same rate until they collided, like crystals for example, the area of each crystal would be the Voronoi region of the starting point.
+
 The following is a formal definition of the Voronoi region from Devadoss and O'Rourke.
 
 
@@ -15,34 +19,60 @@ The following is a formal definition of the Voronoi region from Devadoss and O'R
 \end{definition}
 
 
+We can also define Voronoi regions in a different way.
+Looking at any other point $q$ in $S$, the perpendicular bisector of $\overline{pq}$ divides the plane into two half-planes, one of which contains $p$, which we will call $H$.
+Vor($p$) for this two-point case is just the half-plane described above, and it obviously is for any pair of points.
+Going further and considering a three-point system, there are two half-planes that contain $p$.
+Clearly anything not in one or both of the half-planes cannot be in Vor($p$), or conversely, everything in their intersection must be in Vor($p$).
+We can extend this idea to the following definition:
 
-A Voronoi region can also be defined as the intersection of half-planes.
-In particular, for a region corresponding to a given point $p$, draw a line segment any other point and find its perpendicular bisector and track the half-plane that contains $p$.
-Do this for all other points in the set, and take the intersection of all the half planes containing $p$.
-This intersection is exactly the Voronoi region of $p$.
+\begin{definition}[Voronoi Region (Alternate Definition)]
+	Vor($p$) is the intersection of all half-planes that contain $p$.
+\end{definition}
 
-A nice feature of this definition is that it makes clear that all Voronoi regions are convex.
+The benefit of this definition is that it clarifies a few interesting features of Voronoi regions.
+First, we can immediately see that Voronoi regions are convex by ...
 This follows from the INSERT THEOREM FROM CONVEX HULL SECTION.
-This definition is perhaps also more suggestive of the fact that there are points that are equidistant to multiple points in $S$: those that lie on the perpendicular bisectors that make up the edges of a Voronoi region.
-It is this collection of points that is of interest to us.
-In fact, they are how the Voronoi diagram is defined:
+This definition is perhaps more indicative of what points in the plane are equidistant to multiple points in $S$: those that lie on the perpendicular bisectors that make up the edges of a Voronoi region.
+In fact, the points that are equidistant to multiple points in $S$ are how the Voronoi diagram is defined:
 
 \begin{definition}[Voronoi Diagram]
 	The Voronoi diagram of a set of points $S$ is the collection of all points in the plane that are on the boundary of a Voronoi region.
 \end{definition}
 
+Or alternatively,
+\begin{definition}[Voronoi Diagram (Alternate Definition)]
+	The Voronoi diagram of a set of points $S$ is the collection of all points in the plane that are equidistant to at least two points in $S$.
+\end{definition}
+
 \begin{figure}
-	\includegraphics[width=\linewidth]{figures/voronoi_diagram.png}
-	\label{fig:voronoi_diagram.png}
+	\centering
+	\includegraphics[width=0.4\linewidth]{figures/voronoi_diagram.png}
+	\label{fig:voronoi_diagram}
 \end{figure}
 
-With this definition, it is clear that there is only a single valid Voronoi diagram for each point in $S$.
-This follows because each Voronoi region can be constructed as an intersection of regions, which has no ambiguity, and the Voronoi diagram is constructed directly from the edges of those unambiguous regions.
-And the Voronoi diagram obviously must also exist because you can always take the intersection of any number of regions.
-So, we don't have to put in all the work that we did for the Delaunay triangulation to show these properties, which will come in handy shortly.
+It follows from this alternate definition that there is always a valid Voronoi diagram, and that there is only one such diagram for any $S$.
+This is because any point in the plane has an assignment: either it is equidistant to multiple points in $S$ or it isn't.
+Fortunately, this means there is much less work to do compared to the section on the Delaunay triangluation.
 
-Let's turn our attention towards the edges and vertices of the Voronoi diagram. A Voronoi vert
+Let's turn our attention towards the edges and vertices of the Voronoi diagram.
+By its definition, any point in the Voronoi diagram is equidistant to at least two points in $S$.
+I will give a formal definition of Voronoi edges and vertices, but a visual example like \figref{fig:voronoi_diagram} is much easier to understand.
+The Voronoi edges are the straight lines in a Voronoi diagram and the vertices are the points where these edges meet.
 
+A sufficient definition of the Voronoi edges is the set of points in the plane that are equidistant to exactly two points in $S$, and Voronoi vertices are the points in the plane equidistant to at least three points in $S$.
+In other words, you could draw a circle centered around any Voronoi vertex that connects three points in $S$.
+And there must exist no point $q\in S$ inside this circle, otherwise the vertex wouldn't belong to the Voronoi diagram because it would be closer to $q$ than all other points in $S$.
+So if we connect these three points, we recover exactly the empty circle property that we used to define the Delaunay triangulation!
 
+This turns out to be more than an interesting coincidence; it's actually a direct link between the Delaunay triangulation and the Voronoi diagram.
+If the Voronoi vertices are the centers of all circles that bound three points which have triangles obeying the empty circle property, then if we know all the Voronoi vertices, we also know which points to connect to create the Delaunay triangulation.
+This goes the other way, too.
+If we have the Delaunay triangulation, taking the circumcircle of each triangle returns all Voronoi vertices.
+And since the Voronoi vertices are where Voronoi edges meet, the centers of each circumcircle must be connected to form the Voronoi edges.
 
+And from here we obtain our algorithm to compute the Voronoi diagram:
+
+\begin{algorithm}
+\end{algorithm}
 

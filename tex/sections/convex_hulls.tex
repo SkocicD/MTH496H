@@ -47,7 +47,7 @@ While these algorithms are both intuitive, there is another class of algorithms 
 There are numerous algorithms that belong to this optimal class, all with time complexity $O(n \log n)$.
 From these I will focus on one which uses a divide and conquer approach.
 I choose this method because of its satisfying recursive nature, and because it is the algorithm that most easily extends to a third dimension.
-My implementation of this algorithm is largely inspired by \cite{MR2790764}
+My implementation of this algorithm is largely inspired by the description from Devadoss and O'Rourke.
 
 The pseudocode for this algorithm is shown in \algoref{alg:convex_hull}. But it begins by taking in a list of coordinates sorted by their x-value.
 Since the algorithm is recursive it must have a base case, and here that base case is if there are three or fewer points in $S$ because a triangle is already a convex polygon.
