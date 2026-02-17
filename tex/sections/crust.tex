@@ -197,7 +197,8 @@ Now we are ready to derive a lower bound on the curvature:
 And following closely from that,
 
 \begin{lemma}
-	For an r-sampled curve, $r < 1$, the spanned by three adjacent samples is at least $\pi - 2\arcsin(\frac{r}{2})$.
+	For an r-sampled curve, $r < 1$, the angle spanned by three adjacent samples is at least $\pi - 2\arcsin(\frac{r}{2})$.
+	\label{lem:angle_between_samples}
 \end{lemma}
 
 \begin{proof}
@@ -266,8 +267,54 @@ The idea behind each of these proofs is that I will be making the minimum assump
 \end{proof}
 
 \begin{theorem}
-	The crust of an r-sampled smooth curve does not contain any edge between non-adjacent vertices for r < 0.252
+	The crust of an r-sampled smooth curve $F$ does not contain any edge between non-adjacent vertices for r < 0.252.
 \end{theorem}
+\begin{proof}
+	We again want to make a situation where the assumption is not true, then flip the inequality at the end.
+	So in this case, we begin by considering two nonadjacent vertices, $s$ and $t$.
+	We want there to exist some disk that connects $s$ and $t$ and contains either another sample or a Voronoi vertex.
+	There are infinitely many disks that connect $s$ and $t$, all with their center along the bisector of $\overline{st}$.
+	We will limit this infinite continuum to have two extrema, disks $V$ and $V'$, with midpoints $v$ and $v'$.
+	These extrema are defined such they are as far out as possible while still satisfying that any disk with a center along $\overline{vv'}$ intersects at at least one of $v$ and $v'$.
+	With this construction, there is a disk that transitions from intersecting $v'$ to intersecting $v$, at which point there exists a disk $B$ that intersects $s$, $t$, $v$, and $v'$.
+
+	Without loss of generality, observe that if there is any sample $s'$ in $V$, then there is a Voronoi vertex in B because a circle smaller than $V$ that connects $s$, $t$, and $s'$ with its center not at an endpoint of $\overline{vv'}$, and this center is equidistant to three samples, $s$, $s'$, and $t$ so it is a Voronoi vertex.
+
+	So again, our task is to provide the minimum conditions that such an $s'$ can exist.
+
+	To do this, begin by focusing on the bigger of $V$ and $V'$, without loss of generality say $V$.
+	Given that $s'$ exists, $F\cap V$ is not a single curve segment, so by lemma~\ref{lem:single_curve_segment}, some point of the medial axis $m$ must be located in $V$.
+
+	Let us now focus on the angles in the area near $s$.
+	Because $v$ and $v'$ mark the diameter of $B$ and $s$ is a point on the exterior, they form a triangle inscribed in a semicircle.
+	It is well known that in such a triangle, the inscribed angle is $\pi/2$.
+	Since $V$ and $V'$ intersect at $s$, the angle between their tangent lines, $\omega$, is vertical to this inscribed angle, and is thus also a right angle.
+	Next, let us consider the smallest angle that $s$ can make with its neighboring samples $s_-$ and $s_+$.
+	By lemma~\ref{lem:angle_between_samples}, $\angle s_-ss_+ \le \pi - 2\arcsin(\frac{r}{2})$.
+	This means that there is at least $\pi - 2\arcsin(\frac{r}{2}) - \omega = \frac{\pi}{2} - 2\arcsin(\frac{r}{2})$ left after subtracting away the angle from the tangent lines.
+	Since $\omega$ is somewhat in the middle of $\angle s_-ss_+$, it leaves an angle on each side, the largest of which, $\psi$, has $\psi = \frac{1}{2}(\frac{\pi}{2} - 2\arcsin(\frac{r}{2}))$.
+	Consider a case where $\psi$ is on the same side as $V$, and $s_+$ is the sample here and assume, without loss of generality, that $V$ has radius 1.
+	Because $\psi$ is the angle between a tangent line and the distance to a sample, it is exactly $\alpha$ from Figure~\ref{fig:tangent_circle_properties}.
+	From the aforementioned properties of this angle, we know that the distance between $s$ and $s_+$ must be at least $2\sin(\frac{\pi}{2}) - 2\arcsin(\frac{r}{2})$.
+
+	And since the curve is r-sampled, this distance must be less than one half the sampling condition: $\sin(\frac{\pi}{2}) - 2\arcsin(\frac{r}{2}) \le r\cdot LFS(p)$
+
+	Now, there must be a curve Voronoi vertex, $p$ between $s$ and $s_+$ by lemma~\ref{lem:cruve_voronoi_disk_connects}.
+	And recall we assumed $V$ has radius 1 and contains a point $m$ of the medial axis.
+	This means that $m$ is at most a distance 2 away from $p$, which gives means that $LFS(p) \le 2$.
+
+	Finally, we get our inequality only in terms of r:
+	\[
+		2\sin(\frac{\pi}{2}) - 2\arcsin(\frac{r}{2}) \le 2r
+	\]
+
+	$r > 0.252$ satisfies the inequality, which means that such an $s'$ can exist inside $V$, and thus a Voronoi vertex inside $B$, allowing nonadjacent vertices to belong to the crust.
+	If we flip the inequality, no such $s'$ can exist, then $0 < r \le 0.252$.
+
+\end{proof}
+
+So that does it.
+We have shown that for $r \le 0.252$, the crust will \textit{always} reconstruct the curve correctly.
 
 
 
