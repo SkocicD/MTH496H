@@ -42,7 +42,7 @@ In fact, the points that are equidistant to multiple points in $S$ are how the V
 
 Or alternatively,
 \begin{definition}[Voronoi Diagram (Alternate Definition)]
-	The Voronoi diagram of a set of points $S$ is the collection of all points in the plane that are equidistant to at least two points in $S$.
+	The Voronoi diagram of a set of points $S$ is the collection of all points in the plane that are closest to at least two points in $S$.
 \end{definition}
 
 \begin{figure}
@@ -53,17 +53,28 @@ Or alternatively,
 
 It follows from this alternate definition that there is always a valid Voronoi diagram, and that there is only one such diagram for any $S$.
 This is because any point in the plane has an assignment: either it is equidistant to multiple points in $S$ or it isn't.
-Fortunately, this means there is much less work to do compared to the section on the Delaunay triangluation.
+Fortunately, this means there is much less work to do compared to the section on the Delaunay triangulation.
 
 Let's turn our attention towards the edges and vertices of the Voronoi diagram.
 By its definition, any point in the Voronoi diagram is equidistant to at least two points in $S$.
-I will give a formal definition of Voronoi edges and vertices, but a visual example like \figref{fig:voronoi_diagram} is much easier to understand.
+I will give a formal definition of Voronoi edges and vertices, but a visual example like Figure~\ref{fig:voronoi_diagram} is much easier to understand.
 The Voronoi edges are the straight lines in a Voronoi diagram and the vertices are the points where these edges meet.
 
-A sufficient definition of the Voronoi edges is the set of points in the plane that are equidistant to exactly two points in $S$, and Voronoi vertices are the points in the plane equidistant to at least three points in $S$.
-In other words, you could draw a circle centered around any Voronoi vertex that connects three points in $S$.
-And there must exist no point $q\in S$ inside this circle, otherwise the vertex wouldn't belong to the Voronoi diagram because it would be closer to $q$ than all other points in $S$.
-So if we connect these three points, we recover exactly the empty circle property that we used to define the Delaunay triangulation!
+The formal definitions for Voronoi edges and vertices is as follows
+\begin{definition}[Voronoi edges and vertices]
+	A point in the plane belongs to a Voronoi edge if it is nearest to at least two points in $S$.
+
+	A point in the plane is a Voronoi vertex if it is nearest to at least three points in $S$.
+\end{definition}
+
+Each Voronoi vertex has a corresponding Voronoi disk with the vertex at its center:
+\begin{definition}[Voronoi Disk]
+	A Voronoi disk of a set of points $S$ is a maximal empty disk centered at a Voronoi vertex of $S$.
+\end{definition}
+These disks will always connect at least three points in $S$, because the definition of Voronoi vertex requires that there are at least three points equidistant.
+There must also exist no point $q\in S$ inside this circle, otherwise the vertex wouldn't belong to the Voronoi diagram because it would be closer to $q$ than all other points in $S$.
+Voronoi disks will come into play in the section on the crust, but before that, they highlight a remarkable connection to the Delaunay triangulation.
+If we think about this disk a little further, we have a circle that connects three points in our set, and has no others inside, exactly the empty circle property that we used to define the Delaunay triangulation!
 
 This turns out to be more than an interesting coincidence; it's actually a direct link between the Delaunay triangulation and the Voronoi diagram.
 If the Voronoi vertices are the centers of all circles that bound three points which have triangles obeying the empty circle property, then if we know all the Voronoi vertices, we also know which points to connect to create the Delaunay triangulation.
