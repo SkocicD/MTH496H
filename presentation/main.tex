@@ -1,0 +1,28 @@
+\documentclass{beamer}
+\usetheme{metropolis}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath} % Required for inserting images
+\usepackage{braket}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{quantikz}
+\usepackage{amssymb} % For \iff
+\usepackage{caption}
+\usepackage[backend=bibtex,style=authoryear]{biblatex}
+\usefonttheme{professionalfonts}
+
+\title{Reconstructing Curves Using the Crust}
+\author{David Skocic}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+% \section{}
+\input{slides/polygonal_reconstruction.tex}
+\section{Geometric Tools}
+\input{slides/triangulations.tex}
+\input{slides/delaunay.tex}
+\input{slides/voronoi.tex}
+\input{slides/delaunay-voronoi.tex}
+\end{document}
