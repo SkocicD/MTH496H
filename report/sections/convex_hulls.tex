@@ -1,53 +1,59 @@
 \section{Convex Hulls}
 The first geometric tool of interest is the convex hull.
+The convex hull is foundational to discrete geometry and is applied in countless areas.
+Before discussing the convex hull itself, we should clarify the definition of a convex polygon.
+
+\begin{definition}[Convex Polygon]
+	Consider a polygon $P$. Consider a pair of points in the interior of $P$, $u$ and $v$. If all $u$ and $v$ satisfy that $\overline{uv}$ does not intersect any edges of $P$, then $P$ is convex.
+\end{definition}
+
 A convex hull is used to take a set of points $S$ and connect them to make a convex shape that contains every point in $S$.
-Here, containing a point means that it is either be inside the shape or on its edge.
 It is easy to imagine that there are all sorts of ways to contain every point in $S$ with some sort of convex polygon.
 You could, for example, draw a square so large that it contains every point in $S$, but a shape unrelated to how the points are arranged in $S$ provides almost no more utility than just knowing $S$.
 A convex hull fixes this problem, and adheres to the following definition:
 
-\begin{definition}[Convex Hull] For a given set of points $S$, the convex hull is the intersection of every convex shape that contains every point in $S$.
+\begin{definition}[Convex Hull]
+	For a given set of points $S$, the convex hull is the intersection of every convex shape that contains every point in $S$.
 \end{definition}
 
-SHOW THAT THE INTERSECTION OF TWO CONVEX SHAPES IS ALSO CONVEX
+Since it is the intersection of every convex shape, that also makes it the smallest convex shape that contains all the points, which may be a nicer way to think about it.
+Before moving on, we should make sure that this definition guarantees that the convex hull is actually convex.
+This may seem silly, but there is no promise that the intersection of all these shapes is convex without proof.
+
+\begin{theorem}
+	The convex hull is convex
+\end{theorem}
+
+\begin{proof}
+	It suffices to show that the intersection of any two convex shapes is also convex, and let induction handle the rest.
+	Consider two convex polygons $P$ and $Q$ and let $C=P\cap Q$.
+	Now choose any $u$ and $v$ on the interior of $C$.
+	Since $C$ is the intersection of $P$ and $Q$, $u$ and $v$ don't intersect any edge of $P$ or $Q$, so they don't intersect any edge of $C$ either.
+	Thus, $C$ is convex.
+\end{proof}
 
 Imagining such a shape for a given set of points is easy.
 To generate the convex hull for a set of points, imagine the points are nails in a wall.
-Start by tying a string to a nail at some extrema, say, the leftmost nail on the wall, and holding the string left of that.
+Start by tying a string to the leftmost nail on the wall, and holding the string left of that.
 Then, rotate it all the way around all the other nails until it touches the first one again.
 This shape the string takes on is the convex hull.
+In fact, there is an algorithm to compute the convex hull that is based on this idea called the gift wrapping algorithm.
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{0.4\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{figures/hull_a.png}
-		\label{fig:convex_hull_a}
-	\end{subfigure}\hspace{12pt}
-	\begin{subfigure}{0.4\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{figures/hull_b.png}
-		\label{fig:convex_hull-b}
-	\end{subfigure}
-	\caption{A set of points next to their convex hull}
-	\label{fig:convex_hull}
-\end{figure}
+\input{figures/convex_hull.tex}
 
 The convex hull is a convenient tool because it has an intuitive definition and because convex shapes tend to be simple to work with.
 Also, it can serve as a starting point in an algorithm that starts with an unlabeled set of points like the crust.
 Taking the convex hull at least gives us a place to start connecting our points, even if its usefulness may not initially be clear.
 
 Fortunately, lots of time has been spent finding optimal algorithms for computing the convex hull of a set of points.
-Computing the convex hull really means to find which points from $S$ are vertices of the hull.
-This can be done in a variety of ways.
-One being a sort of inductive method that starts with 3 points, then add one at a time from the set, removing points that end up making the shape nonconvex.
-Another algorithm behaves very similarly to the string wrapping algorithm.
-While these algorithms are both intuitive, there is another class of algorithms that take less time to compute.
+Computing the convex hull really means to find which points from $S$ are vertices of the hull, which can be done in a variety of ways.
+Along with the gift wrapping algorithm, there is a sort of inductive method that starts with 3 points, then add one at a time from the set, removing points that end up making the shape nonconvex.
+While these are both intuitive, they are other algorithms known to be more efficient.
 
-There are numerous algorithms that belong to this optimal class, all with time complexity $O(n \log n)$.
-From these I will focus on one which uses a divide and conquer approach.
-I choose this method because of its satisfying recursive nature, and because it is the algorithm that most easily extends to a third dimension.
-My implementation of this algorithm is largely inspired by the description from Devadoss and O'Rourke.
+There are numerous algorithms that are found to be optimal in the sense that they take the least time to compute as the number of vertices increases.
+Among these, we will focus on one which uses a divide and conquer approach.
+I chose this method because of its satisfying recursive nature, and because it is the algorithm that most easily extends to a third dimension.
+My implementation of this algorithm is largely inspired by the description from \citet{textbook}.
 
 The pseudocode for this algorithm is shown in \algoref{alg:convex_hull}. But it begins by taking in a list of coordinates sorted by their x-value.
 Since the algorithm is recursive it must have a base case, and here that base case is if there are three or fewer points in $S$ because a triangle is already a convex polygon.
