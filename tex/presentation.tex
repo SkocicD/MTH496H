@@ -1,6 +1,9 @@
 \documentclass{beamer}
 \usetheme{metropolis}
+\usecolortheme{default}
+\setbeamercolor{background canvas}{bg=white}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{tikz}
 \usepackage{amsmath} % Required for inserting images
 \usepackage{braket}
 \usepackage{xcolor}
@@ -8,7 +11,12 @@
 \usepackage{quantikz}
 \usepackage{amssymb} % For \iff
 \usepackage{caption}
+\usepackage{subcaption}
 \usepackage[backend=bibtex,style=authoryear]{biblatex}
+
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\usetikzlibrary{angles,quotes}
 \usefonttheme{professionalfonts}
 
 \title{Reconstructing Curves Using the Crust}
@@ -31,5 +39,14 @@
 \input{slides/medial-axis.tex}
 \input{slides/local-feature-size.tex}
 \input{slides/sampling.tex}
+\input{slides/crust_intuition.tex}
+\input{slides/conclusion.tex}
+
+\begin{frame}
+	\centering
+	\Huge Thank you! \\
+	\vspace{1em}
+	\Large Questions?
+\end{frame}
 
 \end{document}

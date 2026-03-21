@@ -1,0 +1,1 @@
+tectonic presentation.tex -o ..
