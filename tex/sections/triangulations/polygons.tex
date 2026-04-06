@@ -1,0 +1,37 @@
+\subsection{Triangulations of Polygons}
+
+The simplest case of a triangulation comes from a polygon because there is already some information about how the points are connected.
+The following definition will serve as a basis for the rest of the arguments about triangulating polygons.
+
+\begin{definition}[Triangulation of a Polygon]
+	A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
+\end{definition}
+
+In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect.
+The term 'maximal set' is used in the definition to ensure that there is no vertex of the polygon on the edge of any triangle.
+
+\input{figures/fig_example_triangulations}
+
+Before getting into the general case, let us look first at the triangulation of a convex polygon, $C$.
+Based on Definition~\ref{def:convex_polygon}, any line drawn across $C$ does not intersect any of its edges.
+Using this fact, we can quickly see a way to triangulate $C$, just start at one vertex and draw lines to every other vertex as shown in \figref{fig_example_triangulations}.
+It is easy to see how this technique can extend to any convex n-gon to create a triangulation with n-2 triangles.
+Something of note is that there can be more than one way to triangulate a polygon, with another example shown in \figref{fig_example_triangulations}.
+Is it possible that some triangulations are better than others? The fact that there is a section dedicated to a specific type, the Delaunay triangulation, should be a clue here, and the reason why is explored in that section.
+
+
+A more interesting problem arises when you try to triangulate a shape that is nonconvex. Is this even possible for \textit{any} polygon? If it is, is there an algorithmic way that works to triangulate any polygon? Will there always be the same number of triangles? The following theorems dive deeper into these questions.
+
+\begin{theorem}All polygons can be triangulated\end{theorem}
+
+\begin{proof}  %This proof comes from computational geometry by springer
+	This is an inductive proof with the base case being a polygon with 3 vertices. This base case is trivial because a triangle need not be broken down into more triangular pieces. Now, the assumption that any polygon with $m$ or fewer vertices can be triangulated and our goal is to show that that a polygon with $n$ vertices with $n = m+1 > 3$ can be triangulated.
+
+	I will begin by showing that a diagonal exists in the polygon, $P$, formed by $n$ vertices. Take some vertex $v$ from $P$ and label the vertices neighboring it $u$ and $w$. If $u$ and $w$ are connected and do not intersect with any edges of $P$, then a diagonal exists. Otherwise, there exists one ore more vertices of $P$ that are inside triangle $uvw$. Now, imagine a line parallel to segment $uw$ that goes through $v$. Let this line sweep toward segment $uw$ until it encounters a vertex of $P$ inside triangle $uvw$ and call this vertex $v'$. The segment $vv'$ must be a diagonal because there are no edges of $P$ between $v$ and $v'$ by the definition of $v'$. So, a diagonal must exist in $P$.
+
+	The existence of this diagonal means that $P$ can be broken into two polygons that share the diagonal as a common edge, with a total of $n+2$ vertices. There are $n+2$ because the $n$ outer edges of the polygon remain part of either new polygon, and the diagonal contributes one edge to each of the newly created polygon, adding two edges. Since each new polygon must have at least 3 vertices, the other must have at most $n-1 = m$ vertices. By the inductive hypothesis, each of these new polygons may be triangulated.
+
+	\input{figures/fig_diagonal_creation}
+\end{proof}
+
+In the process of proving that it is always possible to triangulate any polygon, we have also generated a simple algorithm to triangulate any polygon. If we begin the same way as the proof, drawing a diagonal between some pair of vertices, two smaller shapes are created. Each of these shapes can undergo the same process and create two more shapes. This can be repeated recursively until all the shapes created by the splits are just triangles, so all the diagonals drawn must constitute a triangulation.

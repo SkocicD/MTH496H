@@ -22,8 +22,9 @@ class Point:
     def dist(self, other):
         return ((self.x-other.x)**2+(self.y-other.y)**2)**.5
 
-    def plot(self, ax):
-        ax.plot([self.x], [self.y], 'ko')
+    def plot(self, ax, color='k', marker='o', markersize=2):
+        ax.plot([self.x], [self.y], color=color,
+                marker=marker, markersize=markersize)
 
     def __hash__(self):
         return hash((self.x, self.y))

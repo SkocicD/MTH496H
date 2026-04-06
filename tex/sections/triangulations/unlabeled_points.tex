@@ -1,0 +1,27 @@
+\subsection{Triangulations of an Unlabeled Set of Points}
+
+In the previous section, I showed that any polygon can be triangulated. The method to do this started by drawing a single new edge to form a triangle using two preexisting edges. But what if there are no edges at all, and you just have a set of points? You could construct any number of polygons for a given set of points. To make this algorithmic, we must choose a specific one of these polygons to start to triangulate. To do this, we return to the familiar convex hull.
+
+\begin{definition}
+	\textbf{Triangulation of a set of Points} FILL OUT THIS DEFINITION
+\end{definition}
+
+After computing the convex hull, our situation appears almost like it did in the previous section, but there are still points inside that are not accounted for. To continue down this path, we sincerely hope that the following theorem is true:
+
+\begin{theorem}
+	Any set of points $S$ has a triangulation, $T$, such that \textit{Hull(S)}$ \subset T$. --- notation might not be quite right here, we want the edges of the hull to be a part of the edges of T
+\end{theorem}
+
+\begin{proof}
+
+	We follow a similar method to the previous proof, using induction. Again, the base case is a set of 3 points, with the obvious triangulation of a triangle, which is also the convex hull of the points. Our hypothesis is that, assuming that a set of points $S$ of size $n$ has triangulation $T$ with \textit{Hull(S)}$ \subset T$, some $S' \supset S$ of size $n+1$ has triangulation $T'$ with \textit{Hull(S')}$ \subset T'$.
+
+	There are two cases for the new vertex $v$ that belongs to $S'$ but not $S$. Either $v$ is inside \textit{Hull(S)}, or it is outside of it. We will examine each case independently:
+
+	Explain that a point outside will have a new hull with two "new edges", and if these two edges are added to the previous triangulation, we still have a triangulation.
+
+	Explain how a point inside the hull is in a triangle, and hence this triangle can just have each vertex connect to the point inside and maintain a triangulation
+
+	...
+
+\end{proof}

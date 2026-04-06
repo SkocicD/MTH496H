@@ -58,8 +58,30 @@ def delaunay(vertices):
 
 if __name__ == '__main__':
     points = []
+    tris = None
+    drawn = False
+
+    def on_key(event):
+        global edges, drawn, points
+        if event.key == 'd':
+            if not drawn:
+                for edge in edges:
+                    edge.plot(ax)
+                event.canvas.draw_idle()
+            drawn = True
+        if event.key == 'x':
+            print('here')
+            ax.clear()
+            ax.set_xlim(0, 10)
+            ax.set_ylim(0, 10)
+            ax.set_title("Click anywhere inside the axes")
+            for p in points:
+                p.plot(ax)
+            event.canvas.draw_idle()
+            drawn = False
 
     def on_click(event):
+        global edges, drawn, points
         if ax := event.inaxes:
             x, y = event.xdata, event.ydata
             points.append(Point(x, y))
@@ -77,11 +99,10 @@ if __name__ == '__main__':
             ax.set_ylim(0, 10)
             ax.set_title("Click anywhere inside the axes")
 
-            for edge in edges:
-                edge.plot(ax)
             for p in points:
                 p.plot(ax)
             event.canvas.draw_idle()
+            drawn = False
 
     fig, ax = plt.subplots()
 
@@ -91,5 +112,6 @@ if __name__ == '__main__':
 
     # Connect the click handler
     cid = fig.canvas.mpl_connect('button_press_event', on_click)
+    cid = fig.canvas.mpl_connect('key_press_event', on_key)
 
     plt.show()
