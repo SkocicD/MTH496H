@@ -1,4 +1,5 @@
 \subsection{Triangulations of Polygons}
+\input{figures/triangulations/polygons/convex_polygon.tex}
 
 The simplest case of a triangulation comes from a polygon because there is already some information about how the points are connected.
 The following definition will serve as a basis for the rest of the arguments about triangulating polygons.
@@ -9,29 +10,70 @@ The following definition will serve as a basis for the rest of the arguments abo
 
 In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect.
 The term 'maximal set' is used in the definition to ensure that there is no vertex of the polygon on the edge of any triangle.
+This only turns out to matter if there are three colinear vertices, but we will assume that the vertices are in general position, so this case will never occur.
 
-\input{figures/fig_example_triangulations}
-
-Before getting into the general case, let us look first at the triangulation of a convex polygon, $C$.
-Based on Definition~\ref{def:convex_polygon}, any line drawn across $C$ does not intersect any of its edges.
-Using this fact, we can quickly see a way to triangulate $C$, just start at one vertex and draw lines to every other vertex as shown in \figref{fig_example_triangulations}.
+Before getting into the general case, let us look first at the triangulation of a convex polygon.
+Based on Definition~\ref{def:convex_polygon}, any line drawn across it does not intersect any of its edges.
+Using this fact, we can quickly see a way to triangulate any convex polygon, just start at one vertex and draw lines to every other vertex as shown in Figure~\ref{fig:triangulations.polygons.basic_example}.
 It is easy to see how this technique can extend to any convex n-gon to create a triangulation with n-2 triangles.
-Something of note is that there can be more than one way to triangulate a polygon, with another example shown in \figref{fig_example_triangulations}.
-Is it possible that some triangulations are better than others? The fact that there is a section dedicated to a specific type, the Delaunay triangulation, should be a clue here, and the reason why is explored in that section.
+It is important to note that there can be more than one way to triangulate a polygon, with another example shown in Figure~\ref{fig:triangulations.polygons.basic_example}.
+In fact, we may prefer one triangulation over another based on the use case, which we will explore in the section on Delaunay triangulations.
 
+A more interesting problem arises when you try to triangulate a shape that is nonconvex.
+It was very clear how a convex polygon could be triangulated, but maybe we can construct a nonconvex polygon that has no valid triangulation, perhaps using jagged edges, or long winding sections.
+This turns out to be impossible, but to prove this, we need the following lemma.
 
-A more interesting problem arises when you try to triangulate a shape that is nonconvex. Is this even possible for \textit{any} polygon? If it is, is there an algorithmic way that works to triangulate any polygon? Will there always be the same number of triangles? The following theorems dive deeper into these questions.
+\input{figures/triangulations/polygons/diagonal.tex}
+\begin{lemma}
+	A diagonal exists in any polygon, $P$, with more than 3 vertices.
+	\label{lem:diagonal}
+\end{lemma}
+\begin{proof}
+	Take some vertex $V$ from $P$ and label its neighboring vertices $U$ and $W$ and draw a segment between them.
+	If $\overline{UW}$ does not intersect any edge of $P$, then $\overline{UV}$ is a diagonal, and we are done.
 
-\begin{theorem}All polygons can be triangulated\end{theorem}
-
-\begin{proof}  %This proof comes from computational geometry by springer
-	This is an inductive proof with the base case being a polygon with 3 vertices. This base case is trivial because a triangle need not be broken down into more triangular pieces. Now, the assumption that any polygon with $m$ or fewer vertices can be triangulated and our goal is to show that that a polygon with $n$ vertices with $n = m+1 > 3$ can be triangulated.
-
-	I will begin by showing that a diagonal exists in the polygon, $P$, formed by $n$ vertices. Take some vertex $v$ from $P$ and label the vertices neighboring it $u$ and $w$. If $u$ and $w$ are connected and do not intersect with any edges of $P$, then a diagonal exists. Otherwise, there exists one ore more vertices of $P$ that are inside triangle $uvw$. Now, imagine a line parallel to segment $uw$ that goes through $v$. Let this line sweep toward segment $uw$ until it encounters a vertex of $P$ inside triangle $uvw$ and call this vertex $v'$. The segment $vv'$ must be a diagonal because there are no edges of $P$ between $v$ and $v'$ by the definition of $v'$. So, a diagonal must exist in $P$.
-
-	The existence of this diagonal means that $P$ can be broken into two polygons that share the diagonal as a common edge, with a total of $n+2$ vertices. There are $n+2$ because the $n$ outer edges of the polygon remain part of either new polygon, and the diagonal contributes one edge to each of the newly created polygon, adding two edges. Since each new polygon must have at least 3 vertices, the other must have at most $n-1 = m$ vertices. By the inductive hypothesis, each of these new polygons may be triangulated.
-
-	\input{figures/fig_diagonal_creation}
+	Otherwise, there exists at least one vertex of $P$ inside $\triangle UVW$.
+	Imagine taking a line, $L$, parallel to $\overline{UW}$ through $V$.
+	Now let $L$ sweep it towards $\overline{UW}$.
+	At any moment along its path, $L$ intersects with $\overline{UV}$ and $\overline{VW}$ at $U'$ and $W'$ to create $\triangle VU'W'$.
+	At first, $\triangle VU'W'$ is empty of vertices of $P$, but eventually as $L$ moves, some vertex $V'$ of $P$ will be on $\overline{U'W'}$.
+	Since, $\triangle VU'W'$ is empty of vertices of $P$, it is also empty of edges of $P$, so it is guaranteed that $\overline{VV'}$ does not intersect any edge of $P$ and hence is a diagonal.
 \end{proof}
 
-In the process of proving that it is always possible to triangulate any polygon, we have also generated a simple algorithm to triangulate any polygon. If we begin the same way as the proof, drawing a diagonal between some pair of vertices, two smaller shapes are created. Each of these shapes can undergo the same process and create two more shapes. This can be repeated recursively until all the shapes created by the splits are just triangles, so all the diagonals drawn must constitute a triangulation.
+From which, the following theorem follows closely,
+
+\begin{theorem}
+	Any polygon can be triangulated
+\end{theorem}
+\begin{proof}  %This proof comes from computational geometry by springer
+	This is an inductive proof with the base case being a polygon with 3 vertices.
+	This base case is trivial a triangle fits the definition of a triangulation.
+	The inductive hypothesis is that any polygon with $m$ or fewer vertices can be triangulated, and the goal is to show that $P$ with $n = m+1 > 3$ vertices can be triangulated.
+
+	Consider a polygon $P$.
+	By Lemma~\ref{lem:diagonal}, at least one diagonal exists, choose one such diagonal and call it $D$.
+	Now divide $P$ into two polygons $P_1$ and $P_2$ such that any edge in $P$ is in either $P_1$ or $P_2$, and $D$ is in both $P_1$ and $P_2$.
+	The total number of edges in $P_1$ and $P_2$ is equal to $n+2$ since $D$ is in each new polygon.
+	Without loss of generality, suppose $P_1$ has fewer edges than $P_2$.
+	Since $P_1$ is a polygon, it must have at least 3 edges, which means that $P_2$ can have at most $n + 2 - 3 = n-1 = m$ edges, both of which can be triangulated by the inductive hypothesis, so $P$ can be triangulated by recombining the triangulation of $P_1$ and $P_1$.
+\end{proof}
+
+This inductive proof guarantees the triangulation of any polygon, but it also outlines a simple algorithm to triangulate any polygon;
+choose any vertex on the polygon, draw a diagonal, then continue for each of the polygons created by this diagonal until every polygon is a triangle.
+I will skip a fully fledged description of this algorithm, because a more useful algorithm is explained in detail later.
+Before moving on, we can still squeeze a little more out of this lemma by using it to find the number of triangles that are in the triangulation of a polygon.
+
+\begin{theorem}
+	The triangulation of a polygon with $n$ vertices has $n-2$ triangles.
+\end{theorem}
+\begin{proof}
+	This proof is again inductive and is similar to the previous proof, with the base case that a polygon with 3 vertices has one triangle.
+	Our hypothesis is that a polygon with $k$ vertices has a triangulation with $k-2$ triangles with $k\le m$, and we want to show that a triangulation with $n=m+1$ vertices has $m-1$ triangles in its triangulation.
+
+	Consider polygon $P$ with $n$ vertices.
+	$P$ can be divided in two by a diagonal to form $P_1$ and $P_2$.
+	Suppose $P_1$ has $a$ vertices, and $P_2$ has $b$ vertices, so $a+b = n+2$ and $a, b \le m$.
+	By hypothesis $P_1$ and $P_2$ can be triangulated with $a-2$ and $b-2$ triangles, respectively, so the total number of triangles is $a-2+b-2 = (a+b)-4 = n+2-4 = n-2$.
+\end{proof}
+
+
