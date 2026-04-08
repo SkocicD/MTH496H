@@ -1,0 +1,19 @@
+<div class="flex flex-col h-screen">
+
+  <!-- Canvas -->
+  <canvas #canvas class="flex-1 border border-gray-400"></canvas>
+
+  <!-- Bottom controls -->
+  <div class="flex justify-around p-3 border-t bg-gray-100">
+    <button (click)="onButton1()" class="px-4 py-2 bg-blue-500 text-white rounded">
+      Button 1
+    </button>
+    <button (click)="onButton2()" class="px-4 py-2 bg-green-500 text-white rounded">
+      Button 2
+    </button>
+    <button (click)="onButton3()" class="px-4 py-2 bg-red-500 text-white rounded">
+      Button 3
+    </button>
+  </div>
+
+</div>
