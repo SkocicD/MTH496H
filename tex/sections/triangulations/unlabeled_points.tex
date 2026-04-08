@@ -1,27 +1,63 @@
 \subsection{Triangulations of an Unlabeled Set of Points}
 
-In the previous section, I showed that any polygon can be triangulated. The method to do this started by drawing a single new edge to form a triangle using two preexisting edges. But what if there are no edges at all, and you just have a set of points? You could construct any number of polygons for a given set of points. To make this algorithmic, we must choose a specific one of these polygons to start to triangulate. To do this, we return to the familiar convex hull.
+In the previous section, I showed that any polygon can be triangulated, which depended on breaking a polygon into smaller and smaller pieces.
+But what if there are no edges at all, and you just have an unlabeled set of points?
+It is easy to picture a bunch of triangles connecting a set of points, but it is somewhat unclear where to start, and certainly now even more than before, there appear to be plenty of ways to triangulate any set of points.
+To begin, we will define a triangulation of a set of points in a manner very similar to the triangulation of a polygon.
 
-\begin{definition}
-	\textbf{Triangulation of a set of Points} FILL OUT THIS DEFINITION
+\begin{definition}[Triangulation of a set of Points]
+	A triangulation of an unlabeled set of points, $S$, is a maximal set of nonintersecting segments connecting points in $S$.
+	\label{def:triangulations.unlabeled.primary}
 \end{definition}
 
-After computing the convex hull, our situation appears almost like it did in the previous section, but there are still points inside that are not accounted for. To continue down this path, we sincerely hope that the following theorem is true:
+\textit{Dr. Lupton - I didnt get this definition from anywhere I just thought it made sense, what do you think?}
+
+This definition would be no good if points are connected by shapes other than triangles, so we should be sure to prove the following theorem.
+\begin{theorem}
+	Let $T$ be the set of edges formed by triangulating a set of points.
+	If a polygon $P$ is contained in $T$, then $P$ also has a triangulation in $T$.
+\end{theorem}
+\begin{proof}
+	Denote the set of points $S$.
+	Consider a polygon $P$ made up of $n$ points in $S$, with every edge of $P$ in $T$, and with no points in its interior.
+	With just a little thinking past Theorem~\ref{thrm:triangulations.polygons.n_triangles}, we can see that any triangulation of $P$ must $n-3$ diagonals.
+	So, if we can show that $T$ has exactly $n-3$ diagonals connecting the points in $P$, we are done.
+	To do this, we assume there are not $n-3$ diagonals and show that it is impossible:
+
+	Assume $T$ contains more than $n-3$ diagonals connecting the vertices of $P$.
+	In this case, $T$ would not satisfy Definition~\ref{def:triangulations.unlabeled.primary} because at least two diagonals would need to intersect, contradicting our assumption.
+
+	Now assume $T$ has at most $n-4$ diagonals connecting the vertices of $P$.
+	Since there are fewer than $n-3$ diagonals of $P$, $P$ is not a triangulation by Theorem~\ref{thrm:triangulations.polygons.n_triangles}.
+	Since $P$ is not triangulated, it contains a polygon with more than 3 edges.
+	By Lemma~\ref{lem:triangulations.polygons.diagonal}, there exists a diagonal connecting two points in this polygon that intersects no edge in $T$.
+	Again, $T$ would not satisfy Definition~\ref{def:triangulations.unlabeled.primary} because it is not a maximal set, contradicting our assumption.
+\end{proof}
+
+\input{figures/triangulations/unlabeled/maximal.tex}
+While this definition says nothing about triangles, their information can be easily recovered by finding all segments that connect any three points.
+Unlike before, the restriction of a maximal set does more than handle the case of general position; it guarantees that if a triangle can be drawn, it will be.
+Without this condition, both triangulations in Figure~\ref{fig:triangulations.unlabeled.maximal} could be valid.
+This feature is summed up in the following theorem.
 
 \begin{theorem}
-	Any set of points $S$ has a triangulation, $T$, such that \textit{Hull(S)}$ \subset T$. --- notation might not be quite right here, we want the edges of the hull to be a part of the edges of T
+	The triangulation of a set of points contains all the edges that connect the vertices of the convex hull.
 \end{theorem}
-
 \begin{proof}
-
-	We follow a similar method to the previous proof, using induction. Again, the base case is a set of 3 points, with the obvious triangulation of a triangle, which is also the convex hull of the points. Our hypothesis is that, assuming that a set of points $S$ of size $n$ has triangulation $T$ with \textit{Hull(S)}$ \subset T$, some $S' \supset S$ of size $n+1$ has triangulation $T'$ with \textit{Hull(S')}$ \subset T'$.
-
-	There are two cases for the new vertex $v$ that belongs to $S'$ but not $S$. Either $v$ is inside \textit{Hull(S)}, or it is outside of it. We will examine each case independently:
-
-	Explain that a point outside will have a new hull with two "new edges", and if these two edges are added to the previous triangulation, we still have a triangulation.
-
-	Explain how a point inside the hull is in a triangle, and hence this triangle can just have each vertex connect to the point inside and maintain a triangulation
-
-	...
-
+	Begin by denoting the set of points $S$, the edges of the triangulation $T$, and the edges connecting the vertices of the hull $H$.
+	Now suppose that $T$ does not contain some edge in $H$, $E$.
+	Since the convex hull is convex and has all points in $S$ in its interior, any pair of points in $S$ will not intersect $E$, by Definition~\ref{def:convex_polygon}.
+	Because $T$ is a subset of all the segments connecting pairs of points in $S$, it is impossible for any of its segments to intersect $E$.
+	But this makes $E$ a segment not contained in $T$ that connects two points in $S$ that does not intersect any segment in $T$, so $T$ must not be maximal.
+	This violates Definition~\ref{def:triangulations.unlabeled.primary}, contradicting our assumption, so $T$ must contain $E$ and thus contains all edges in $H$.
 \end{proof}
+
+This result not only ties together the two geometric tools introduced so far, but also serves as a basis from which to compute the triangulation for a set of points $S$.
+We can begin by computing the convex hull, then find any triangulation of it using the steps from the previous section.
+Now, if we consider one point in $S$ not in the hull, we know this point must fall into one of the triangles of the hull triangulation.
+Simply connect this point to the vertices of the triangle that contains it, then the triangulation is maintained.
+So we just need to repeat this, adding one point at a time until all points are accounted for, then we have a triangulation of $S$.
+
+The next section discusses the Delaunay triangulation, which is a special triangulation that obeys some specific properties, and is the most important ingredient in the crust.
+The process to compute it happens to be very similar to the one just explained, but instead of just connecting each new point to the vertices of the triangle that contains it, we sometimes remove an edge from an already-made triangle and replace it with an edge that intersects it.
+Nevertheless, this section has laid the foundations to study the rich field of triangulations, for which the next section only scratches the surface.

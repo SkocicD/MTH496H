@@ -6,6 +6,7 @@ The following definition will serve as a basis for the rest of the arguments abo
 
 \begin{definition}[Triangulation of a Polygon]
 	A decomposition of a polygon into triangles by a maximal set of non-intersecting diagonals.
+	\label{def:triangulations.polygons.primary}
 \end{definition}
 
 In simpler terms, a triangulation breaks a polygon into triangular pieces by drawing segments between its vertices so that no two segments intersect.
@@ -26,7 +27,7 @@ This turns out to be impossible, but to prove this, we need the following lemma.
 \input{figures/triangulations/polygons/diagonal.tex}
 \begin{lemma}
 	A diagonal exists in any polygon, $P$, with more than 3 vertices.
-	\label{lem:diagonal}
+	\label{lem:triangulations.polygons.diagonal}
 \end{lemma}
 \begin{proof}
 	Take some vertex $V$ from $P$ and label its neighboring vertices $U$ and $W$ and draw a segment between them.
@@ -44,6 +45,7 @@ From which, the following theorem follows closely,
 
 \begin{theorem}
 	Any polygon can be triangulated
+	\label{thrm:triangulations.polygons.any_possible}
 \end{theorem}
 \begin{proof}  %This proof comes from computational geometry by springer
 	This is an inductive proof with the base case being a polygon with 3 vertices.
@@ -51,7 +53,7 @@ From which, the following theorem follows closely,
 	The inductive hypothesis is that any polygon with $m$ or fewer vertices can be triangulated, and the goal is to show that $P$ with $n = m+1 > 3$ vertices can be triangulated.
 
 	Consider a polygon $P$.
-	By Lemma~\ref{lem:diagonal}, at least one diagonal exists, choose one such diagonal and call it $D$.
+	By Lemma~\ref{lem:triangulations.polygons.diagonal}, at least one diagonal exists, choose one such diagonal and call it $D$.
 	Now divide $P$ into two polygons $P_1$ and $P_2$ such that any edge in $P$ is in either $P_1$ or $P_2$, and $D$ is in both $P_1$ and $P_2$.
 	The total number of edges in $P_1$ and $P_2$ is equal to $n+2$ since $D$ is in each new polygon.
 	Without loss of generality, suppose $P_1$ has fewer edges than $P_2$.
@@ -61,10 +63,13 @@ From which, the following theorem follows closely,
 This inductive proof guarantees the triangulation of any polygon, but it also outlines a simple algorithm to triangulate any polygon;
 choose any vertex on the polygon, draw a diagonal, then continue for each of the polygons created by this diagonal until every polygon is a triangle.
 I will skip a fully fledged description of this algorithm, because a more useful algorithm is explained in detail later.
-Before moving on, we can still squeeze a little more out of this lemma by using it to find the number of triangles that are in the triangulation of a polygon.
+
+While this outlines a way to generate \textit{some} triangulation, it is worth noting that \textit{any} triangulation can be generated in this way.
+If you start with a triangulation in mind, by Definition~\ref{def:triangulations.polygons.primary}, the edges in the triangulation are just diagonals, so at each step, just choose one of the diagonals in the target triangulation as the next diagonal that splits the polygon.
+Knowing this, we can still squeeze a little more out of our lemma by using it to find the number of triangles that are in any triangulation of a polygon.
 
 \begin{theorem}
-	The triangulation of a polygon with $n$ vertices has $n-2$ triangles.
+	Any triangulation of a polygon with $n$ vertices has $n-2$ triangles.
 \end{theorem}
 \begin{proof}
 	This proof is again inductive and is similar to the previous proof, with the base case that a polygon with 3 vertices has one triangle.
@@ -74,6 +79,5 @@ Before moving on, we can still squeeze a little more out of this lemma by using 
 	$P$ can be divided in two by a diagonal to form $P_1$ and $P_2$.
 	Suppose $P_1$ has $a$ vertices, and $P_2$ has $b$ vertices, so $a+b = n+2$ and $a, b \le m$.
 	By hypothesis $P_1$ and $P_2$ can be triangulated with $a-2$ and $b-2$ triangles, respectively, so the total number of triangles is $a-2+b-2 = (a+b)-4 = n+2-4 = n-2$.
+	\label{thrm:triangulations.polygons.n_triangles}
 \end{proof}
-
-
