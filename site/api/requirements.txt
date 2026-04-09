@@ -1,0 +1,4 @@
+matplotlib
+Gunicorn
+Flask
+Flask-cors
