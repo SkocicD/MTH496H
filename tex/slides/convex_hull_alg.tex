@@ -1,0 +1,9 @@
+\begin{frame}{Computing the Convex Hull}
+	\begin{itemize}
+		\item Divide and conquer!
+		\item Assume we can get the convex hull of the left and right half of the points
+		\item Eventually, there will be 2 or 3 points, which are always convex
+		\item Recombine halves by walking segments starting from the innermost points until they are tangent to each hull
+	\end{itemize}
+	\input{figures/convex_hull/animation.tex}
+\end{frame}

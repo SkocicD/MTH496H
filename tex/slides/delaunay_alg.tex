@@ -1,0 +1,10 @@
+\begin{frame}{Computing the Delaunay Triangulation}
+	\begin{enumerate}
+		\item Draw a super triangle, large enough to contain every point
+		\item Add in points one at a time, and find all circumcircles that contain it
+		\item If two circumcircles come from triangles that share an edge, remove that edge
+		\item Connect the new point to every vertex surrounding it
+		\item After all points are added, remove any edge that has a vertex of the super triangle as an endpoint
+	\end{enumerate}
+	\input{}
+\end{frame}

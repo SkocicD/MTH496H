@@ -1,0 +1,8 @@
+\begin{frame}{Computing the Voronoi Diagram}
+	\begin{enumerate}
+		\item Start by taking the Delaunay triangulation
+		\item Find the circumcenter of all triangles, these are the Voronoi vertices
+		\item Draw lines connecting each pair of Voronoi vertices that come from triangles sharing an edge
+		\item For any edges on the outside of the triangulation, draw a ray outwards from the Voronoi vertex of its triangle, perpendicular to the edge
+	\end{enumerate}
+\end{frame}
