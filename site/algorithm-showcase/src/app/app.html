@@ -5,14 +5,28 @@
 
   <!-- Bottom controls -->
   <div class="flex justify-around p-3 border-t bg-gray-100">
-    <button (click)="onButton1()" class="px-4 py-2 bg-blue-500 text-white rounded">
-      Button 1
+    <button
+      (click)="toggle('hull')"
+      [ngClass]="getButtonClass('hull', 'blue')">
+      Convex Hull
     </button>
-    <button (click)="onButton2()" class="px-4 py-2 bg-green-500 text-white rounded">
-      Button 2
+
+    <button
+      (click)="toggle('delaunay')"
+      [ngClass]="getButtonClass('delaunay', 'green')">
+      Delaunay
     </button>
-    <button (click)="onButton3()" class="px-4 py-2 bg-red-500 text-white rounded">
-      Button 3
+
+    <button
+      (click)="toggle('voronoi')"
+      [ngClass]="getButtonClass('voronoi', 'red')">
+      Voronoi
+    </button>
+
+    <button
+      (click)="toggle('crust')"
+      [ngClass]="getButtonClass('crust', 'purple')">
+      Crust
     </button>
   </div>
 
