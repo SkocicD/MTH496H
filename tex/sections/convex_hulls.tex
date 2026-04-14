@@ -56,7 +56,7 @@ Among these, we will focus on one which uses a divide and conquer approach.
 I chose this method because of its satisfying recursive nature, and because it is the algorithm that most easily extends to a third dimension.
 My implementation of this algorithm is largely inspired by the description from \citet{textbook}.
 
-The pseudocode for this algorithm is shown in \algoref{alg:convex_hull}. But it begins by taking in a list of coordinates sorted by their x-value.
+The pseudocode for this algorithm is shown in Algorithm~\ref{alg:convex_hull}. But it begins by taking in a list of coordinates sorted by their x-value.
 Since the algorithm is recursive it must have a base case, and here that base case is if there are three or fewer points in $S$ because a triangle is already a convex polygon.
 When there are more than three points in $S$, separate the points into the left half and the right half and generate the convex hull of those points.
 This splitting continues until the hulls are triangles or line segments, which is the base case.
