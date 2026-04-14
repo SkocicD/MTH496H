@@ -17,14 +17,12 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{natbib}
+\usepackage{hyperref}
 
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{positioning}
 \usetikzlibrary{angles,quotes}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\newcommand{\figref}[1]{Figure~\ref{#1}}
-\newcommand{\lemref}[1]{Lemma~\ref{#1}}
-\newcommand{\algoref}[1]{Algorithm~\ref{#1}}
 \newcommand{\bigfrac}[2]{\genfrac{}{}{}{0}{#1}{#2}}
 %---------------------------
 \newtheorem{theorem}{Theorem}
@@ -32,27 +30,11 @@
 \newtheorem{corollary}{Corollary}
 \newtheorem{definition}{Definition}
 
-\title{CRUST}
-\author{David Skocic}
-\date{\today}
-
 \begin{document}
 
-\maketitle
-
-\doublespacing
-%---------------------------
-\vspace{1.5in}
-\begin{center}
-	\large MTH 496H - Honors Senior Project \\
-	\large Fall Semester 2025 \\
-	\large Advisor: Dr. Gregory Lupton \\
-	\large Cleveland State University \\
-	\large Department of Mathematics \& Statistics \\
-\end{center}
-\vspace{1in}
-%---------------------------
+\input{sections/title_page.tex}
 \newpage
+\doublespacing
 
 \tableofcontents
 \newpage
